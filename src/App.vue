@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div id="App">
     <!-- 路由出口 -->
     <RouterView />
   </div>
 </template>
 <script setup lang="ts">
 import config from '@config/webConfig'
-onMounted(() => {
+
+const initWeb=()=>{
   document.title = config.name
   const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
-   if (favicon) {
+  if (favicon) {
     favicon.href = config.icon;
   } else {
     const newFavicon = document.createElement('link');
@@ -17,8 +18,17 @@ onMounted(() => {
     newFavicon.href = config.icon;
     document.head.appendChild(newFavicon);
   }
+}
+
+onMounted(() => {
+  initWeb()
+  // useTheme()
 })
 </script>
-<style scoped>
-
+<style lang="less" scoped>
+#App{
+  width: 100vw;
+  height: 100vh;
+  background: #EEF0F3;
+}
 </style>

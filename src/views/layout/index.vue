@@ -11,9 +11,11 @@
 <script lang="ts" setup>
 import useLoginStore from '@modules/login/index'
 import { loginStateType} from '@stores/interface/login.ts'
+import {storeToRefs} from "pinia";
 const loginStore = useLoginStore()
-const {login} = loginStore
 const {user,getUser} = storeToRefs(loginStore)
+const {login} = loginStore
+
 console.log(user.value)
 const update = () => {
 

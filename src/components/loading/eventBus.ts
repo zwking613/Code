@@ -1,6 +1,4 @@
-import { createApp, reactive, provide } from 'vue';
-
-const EventBus = createApp({});
+const EventBus:any = createApp({});
 const state = reactive({
     needLoadingRequestCount: 0
 });

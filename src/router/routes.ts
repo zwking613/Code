@@ -3,20 +3,33 @@ const router:Array<RouterType> = [
     {
         // 首页
         path: '/',
-        component: () => import('@views/layout/index.vue'),
+        name:'Layout',
+        component: () => import('@/layouts/index.vue'),
         meta:{
             title: '首页',
-            icon: 'home'
+            icon: 'home',
+            requiresAuth:true
         },
-        children: []
+        children: [{
+            path: "/home/index",
+            name:'Home',
+            component: () => import('@views/layout/index.vue'),
+            meta: {
+                requiresAuth: true,
+                icon: 'home',
+                title: "首页",
+            }
+        }]
     },
     {
         // 登录
         path: '/login',
+        name:'Login',
         component: () => import('@views/login/index.vue'),
         meta:{
             title: '登录',
-            icon: 'login'
+            icon: 'login',
+            requiresAuth:false
         },
         children: []
     }

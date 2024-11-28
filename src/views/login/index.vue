@@ -1,13 +1,130 @@
+<!--<template>-->
+<!--  <div>-->
+<!--    &lt;!&ndash; 你的组件内容 &ndash;&gt;-->
+<!--    <el-button type="primary" @click="login">登录</el-button>-->
+<!--  </div>-->
+<!--</template>-->
+
+<!--<script lang="ts" setup>-->
+<!--import {loginApi} from "@api/modules/login.ts"-->
+<!--const login =async () => {-->
+<!--  await loginApi({username: "xz", password: "xz"})-->
+<!--};-->
+<!--</script>-->
+
+
 <template>
-  <div>
-    <!-- 你的组件内容 -->
-    <el-button type="primary" @click="login">登录</el-button>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-left">
+        <img :src="loginLeft" alt="login" />
+      </div>
+      <div class="login-form">
+        <div class="login-logo">
+          <img class="login-icon" :src="logo" alt="logo" />
+          <span class="logo-text">Hooks-Admin</span>
+        </div>
+        <LoginForm />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {loginApi} from "@api/modules/login.ts"
-const login =async () => {
-  await loginApi({username: "xz", password: "xz"})
-};
+import LoginForm from "./components/LoginForm.vue";
+import loginLeft from "@/assets/images/login_left.png";
+import logo from "@/assets/images/logo.png";
 </script>
+
+<style scoped lang="less">
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 550px;
+  height: 100vh;
+  min-height: 500px;
+  background-color: #eeeeee;
+  background-image: url("@/assets/images/login_bg.svg");
+  background-position: 50%;
+  background-size: 100% 100%;
+  background-size: cover;
+  .login-box {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 96%;
+    height: 94%;
+    padding: 0 4% 0 20px;
+    overflow: hidden;
+    background-color: hsl(0deg 0% 100% / 80%);
+    border-radius: 10px;
+    .login-left {
+      width: 750px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .login-form {
+      padding: 40px 45px 25px;
+      border-radius: 10px;
+      box-shadow: 2px 3px 7px rgb(0 0 0 / 20%);
+      .login-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+        .login-icon {
+          width: 70px;
+        }
+        .logo-text {
+          padding-left: 25px;
+          font-size: 48px;
+          font-weight: bold;
+          color: #475768;
+          white-space: nowrap;
+        }
+      }
+      .ant-form-item {
+        height: 75px;
+        margin-bottom: 0;
+        .ant-input-prefix {
+          margin-right: 10px;
+        }
+        .ant-input-affix-wrapper-lg {
+          padding: 8.3px 11px;
+        }
+        .ant-input-affix-wrapper,
+        .ant-input-lg {
+          font-size: 14px;
+        }
+        .ant-input-affix-wrapper {
+          color: #bfbfbf;
+        }
+      }
+      .login-btn {
+        width: 100%;
+        margin-top: 10px;
+        white-space: nowrap;
+        .ant-form-item-control-input-content {
+          display: flex;
+          justify-content: space-between;
+          .ant-btn {
+            width: 180px;
+            span {
+              font-size: 14px;
+            }
+          }
+          .ant-btn-default {
+            color: #606266;
+          }
+        }
+      }
+    }
+  }
+}
+
+</style>
