@@ -2,7 +2,7 @@ import { createVNode, render } from 'vue';
 import EventBus from '@components/loading/eventBus';
 import Loading from '@components/loading/index.vue';
 
-let loadingNode = null;
+let loadingNode:Element | ShadowRoot | null = null;
 
 export const showFullScreenLoading = () => {
     if (EventBus.config.globalProperties.$state.needLoadingRequestCount === 0) {
@@ -18,8 +18,8 @@ export const tryHideFullScreenLoading = () => {
     if (EventBus.config.globalProperties.$state.needLoadingRequestCount <= 0) return;
     EventBus.config.globalProperties.$state.needLoadingRequestCount--;
     if (EventBus.config.globalProperties.$state.needLoadingRequestCount === 0) {
-        render(null, loadingNode);
-        document.body.removeChild(loadingNode);
+        render(null, loadingNode as Element);
+        document.body.removeChild(loadingNode as Element);
         loadingNode = null;
     }
 };
