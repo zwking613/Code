@@ -3,9 +3,9 @@ import { Component } from 'vue';
 export interface menuStateType {
     isCollapse:boolean,
     defaultActive:string,
-    defaultOpeneds:[],
+    defaultOpeneds:any[],
     routerArray:RouterType[],
-    crumbsList:[]
+    crumbsList:any[]
 }
 
 export interface RouterType {

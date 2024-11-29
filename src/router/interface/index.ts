@@ -6,6 +6,7 @@ export interface RouterType {
   component?:() => Promise<Component> | undefined;
   name:string
   meta?:MetaType |undefined
+    [key: string]: any
 }
 
 export interface MetaType {

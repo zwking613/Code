@@ -10,8 +10,9 @@ export const router = createRouter({
 // 下面做路由限制，比如登录验证等
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
-  console.log(from);
   // 检查用户是否已登录
+  console.log(from);
+  console.log(to);
   const isLoggedIn = localGet('vue_admin_token');
   // 如果要访问的页面需要登录，且用户未登录，则重定向到登录页面
   if (to.meta.requiresAuth && !isLoggedIn) {

@@ -16,7 +16,6 @@ const loginStore = useLoginStore()
 const {user,getUser} = storeToRefs(loginStore)
 const {login} = loginStore
 
-console.log(user.value)
 const update = () => {
 
   loginStore.user = 'reset' // 修改单个

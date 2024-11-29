@@ -7,6 +7,7 @@ const router: Array<RouterType> = [
         // 首页
         path: '/',
         name: 'Layout',
+        redirect: '/dashboard',
         component: () => import('@/layouts/index.vue'),
         meta: {
             title: '首页',

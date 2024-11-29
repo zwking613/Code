@@ -11,9 +11,6 @@
         <el-main>
           <RouterView></RouterView>
         </el-main>
-<!--      <el-footer>-->
-<!--        <LayoutFooter></LayoutFooter>-->
-<!--      </el-footer>-->
     </el-container>
   </div>
 </template>

@@ -42,6 +42,7 @@ import type {  FormInstance, FormRules } from 'element-plus'
 import {useRouter} from 'vue-router'
 import {login,getCaptchaImage} from "@api/modules/login/login.ts";
 import logo from "@/assets/images/logo.png";
+import { localSet } from "@utils/utils.ts";
 
 const router = useRouter();
 
@@ -70,6 +71,7 @@ const resetForm = (ruleFormRef:FormInstance | undefined) => {
 };
 
 const submitForm =(ruleFormRef:FormInstance | undefined) => {
+  localSet('vue_admin_token','qw')
   router.push('/dashboard');
   return
   if (!ruleFormRef)return;
@@ -91,7 +93,7 @@ const refreshCaptcha = async ()=>{
   console.log(result)
 }
 onMounted( ()=>{
-  refreshCaptcha()
+  // refreshCaptcha()
 })
 </script>
 

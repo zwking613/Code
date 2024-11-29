@@ -22,7 +22,7 @@ const useMenuStore = defineStore('menu', {
             meta: {
                 requiresAuth: true,
                 icon: 'home',
-                title: "首页",
+                title: "Home",
             }
         },{
             path: "/u",
@@ -31,7 +31,7 @@ const useMenuStore = defineStore('menu', {
             meta: {
                 requiresAuth: true,
                 icon: 'home',
-                title: "首页",
+                title: "HomeUser",
             },
             children: [ {
                 path: "/user",
@@ -40,7 +40,7 @@ const useMenuStore = defineStore('menu', {
                 meta: {
                     requiresAuth: true,
                     icon: 'home',
-                    title: "suer",
+                    title: "User",
                 }
             }
             ]
@@ -66,7 +66,7 @@ const useMenuStore = defineStore('menu', {
     }),
     getters: {
     },
-    persist:true,
+    // persist:true,
 })
 
 export default useMenuStore
