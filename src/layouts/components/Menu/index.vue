@@ -4,84 +4,73 @@
       <img :src="logo" alt="logo" class="logo-img"/>
       <h2 class="logo-text" v-if="!isCollapse">Hooks Admin</h2>
     </div>
-    <!--          :default-active=""-->
-
-      <el-menu
-          :default-openeds="[]"
-          @open-change="onOpenChange"
-          active-text-color="#ffffffa6"
-          background-color="@bg-color"
-          text-color="#ffffff"
-          @select="clickMenu"
-          :collapse="isCollapse"
-      >
-        <template v-for="item in menuList" :key="item.path">
-          <el-menu-item v-if="!item.children" :index="item.path">
-            <component size="25" :is="item.meta.icon" />
-            <span class="menu_title">{{ item.meta.title }}</span>
-          </el-menu-item>
-          <el-sub-menu v-else :index="item.path">
-            <template #title>
-              <component size="25" :is="item.meta.icon" />
-              <span class="menu_title">{{ item.meta.title }}</span>
-            </template>
-            <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">
-              <component size="25" :is="child.meta.icon" />
-              <span class="menu_title">{{ child.meta.title }}</span>
-            </el-menu-item>
-          </el-sub-menu>
+    <el-menu
+        active-text-color="#FBFFFF"
+        text-color="#586FC7"
+        background-color="#ffffff"
+        :collapse="isCollapse"
+        :unique-opened="true"
+        @select="clickMenu"
+        :default-active="defaultActive"
+        :default-openeds="defaultOpeneds"
+    >
+      <el-menu-item index="/dashboard">
+        <el-icon>
+          <document/>
+        </el-icon>
+        <template #title>dashboard</template>
+      </el-menu-item>
+      <el-sub-menu index="1">
+        <template #title>
+          <el-icon><location /></el-icon>
+          <span>Navigator One</span>
         </template>
-      </el-menu>
+        <el-menu-item index="/user">user</el-menu-item>
+      </el-sub-menu>
+      <el-menu-item index="/home">
+        <el-icon>
+          <document/>
+        </el-icon>
+        <template #title>Home</template>
+      </el-menu-item>
+      <el-menu-item index="/test">
+        <el-icon>
+          <document/>
+        </el-icon>
+        <template #title>Test</template>
+      </el-menu-item>
+      <el-menu-item index="/about">
+        <el-icon>
+          <setting/>
+        </el-icon>
+        <template #title>About</template>
+      </el-menu-item>
+    </el-menu>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {storeToRefs} from "pinia";
-import logo from "@/assets/images/logo.png";
+import { storeToRefs } from "pinia";
+import { useRouter } from 'vue-router'
 import useMenuStore from '@stores/modules/menu'
+import logo from "@/assets/images/logo.png";
+
 const menuStore = useMenuStore()
-const {isCollapse} =storeToRefs(menuStore)
-const menuList = reactive([
-  {
-    // 首页
-    path: '/home',
-    name:'Layout',
-    meta:{
-      title: '首页',
-      icon: 'Basketball',
-      requiresAuth:true,
-    },
-    children: [{
-      path: "/home/index",
-      name:'Home',
-      meta: {
-        requiresAuth: true,
-        icon: 'Basketball',
-        title: "首页",
-      }
-    }]
-  },
-  {
-    // 登录
-    path: '/login123',
-    name:'Login',
-    meta:{
-      title: '登录',
-      icon: 'Basketball',
-      requiresAuth:false
-    },
-  }
-])
+const {isCollapse,defaultActive,defaultOpeneds} = storeToRefs(menuStore)
+const router = useRouter()
 const clickMenu = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
-}
-const onOpenChange = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+  router.push(key)
+  menuStore.defaultActive = key;
+  menuStore.defaultOpeneds = keyPath;
 }
 
+onMounted(()=>{
+  menuStore.defaultActive = router.options.history.location;
+})
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 #menu {
   display: flex;
   flex-direction: column;
@@ -93,7 +82,6 @@ const onOpenChange = (key: string, keyPath: string[]) => {
     align-items: center;
     justify-content: center;
     height: 55px;
-    border-bottom: 1px solid #010b14;
 
     .logo-img {
       width: 30px;
@@ -104,25 +92,15 @@ const onOpenChange = (key: string, keyPath: string[]) => {
       margin: 0 0 0 10px;
       font-size: 24px;
       font-weight: bold;
-      color: #dadada;
+      color: #1A54B0;
       white-space: nowrap;
     }
-  }
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 220px;
-      overflow-x: hidden;
-      overflow-y: auto;
   }
 
   .el-menu {
     border: none;
-    .el-menu-item.is-active {
-      background-color: #409EFF !important;
-    }
-    .menu_title{
-      font-size: 14px;
-      font-weight: bold;
-    }
+    font-size: 18px;
+    font-weight: bold;
   }
 }
 </style>

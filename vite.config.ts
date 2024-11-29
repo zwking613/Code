@@ -44,6 +44,7 @@ export default defineConfig({
       '@stores':path.resolve(__dirname,'src/stores'),
       '@modules':path.resolve(__dirname,'src/stores/modules'),
       '@views':path.resolve(__dirname,'src/views'),
+      '@assets':path.resolve(__dirname,'src/assets'),
     },
   },
   // 配置全局css

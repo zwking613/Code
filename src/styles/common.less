@@ -10,43 +10,37 @@
 	box-shadow: inset 0 0 0 white; /* 滚动条滑块阴影 */
 }
 
-/* 页面切换动画 */
-.fade-enter {
-	opacity: 0; /* 初始透明度 */
-	transform: translateX(-30px); /* 初始水平位移 */
-}
-.fade-enter-active,
-.fade-exit-active {
-	opacity: 1; /* 动画结束透明度 */
-	transition: all 0.2s ease-out; /* 动画效果：所有属性，0.2秒，缓出 */
-	transform: translateX(0); /* 动画结束水平位移 */
-}
-.fade-exit {
-	opacity: 0; /* 退出透明度 */
-	transform: translateX(30px); /* 退出水平位移 */
-}
-
-/* 全局样式 */
-.content-box {
-	display: flex; /* 弹性布局 */
-	flex-direction: column; /* 垂直排列 */
-	align-items: center; /* 水平居中 */
-	width: 100%; /* 宽度100% */
-	height: 100%; /* 高度100% */
-	.text {
-		margin: 30px 0; /* 上下外边距30px */
-		font-size: 23px; /* 字体大小23px */
-		font-weight: 700; /* 字体粗细700 */
-		color: #585858; /* 字体颜色 */
-		a {
-			text-decoration: underline !important; /* 链接下划线，重要标记 */
-		}
-	}
-}
 .el-header{
 	--el-header-padding:0 !important;
 	--el-header-height:55px !important;
 	box-sizing:border-box;flex-shrink:0;
 	height:var(--el-header-height);
 	padding:0 !important;
+}
+
+
+.el-menu-item.is-active {
+	background-color: #5070FC !important;
+	border-radius: 5px;
+}
+
+.el-menu--collapse .el-sub-menu.is-active .el-sub-menu__title{
+	background-color: #5070FC !important;
+	border-radius: 5px;
+}
+
+.el-sub-menu__title:hover{
+	background-color: #509eff !important;
+	border-radius: 5px;
+	color: #ffffff;
+}
+
+.el-menu-item.is-active {
+	background-color: #5070FC !important;
+	border-radius: 5px;
+}
+.el-menu-item:hover {
+	background-color: #409eff !important;
+	border-radius: 5px;
+	color: #ffffff;
 }

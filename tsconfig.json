@@ -33,6 +33,7 @@
       "@stores/*": ["src/stores/*"],
       "@views/*": ["src/views/*"],
       "@modules/*": ["src/stores/modules/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": [

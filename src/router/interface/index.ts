@@ -3,9 +3,9 @@ import { Component } from 'vue';
 export interface RouterType {
   path: string;
   children?: Array<RouterType>|undefined;
-  component:() => Promise<Component>;
+  component?:() => Promise<Component> | undefined;
   name:string
-  meta:MetaType
+  meta?:MetaType |undefined
 }
 
 export interface MetaType {

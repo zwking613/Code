@@ -6,7 +6,6 @@
 </template>
 <script setup lang="ts">
 import config from '@config/webConfig'
-
 const initWeb=()=>{
   document.title = config.name
   const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
@@ -29,6 +28,6 @@ onMounted(() => {
 #App{
   width: 100vw;
   height: 100vh;
-  background: #EEF0F3;
+  background:#F3F4FA;
 }
 </style>

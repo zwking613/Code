@@ -1,12 +1,13 @@
 <template>
   <div id="container">
-    <el-aside :collapsed="isCollapse" :width="!isCollapse ? '220px':'70px'" >
+    <el-aside :collapsed="isCollapse" class="aside" :width="!isCollapse ? '260px':'80px'" >
       <LayoutMenu></LayoutMenu>
     </el-aside>
     <el-container>
       <el-header>
         <LayoutHeader></LayoutHeader>
       </el-header>
+      <LayoutTabs/>
         <el-main>
           <RouterView></RouterView>
         </el-main>
@@ -18,24 +19,22 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
 import {storeToRefs} from 'pinia'
+import useMenuStore from '@stores/modules/menu'
 import LayoutMenu from './components/Menu/index.vue';
 import LayoutHeader from './components/Header/index.vue';
-// import LayoutTabs from './components/Tabs/index.vue';
-// import LayoutFooter from './components/Footer/index.vue';
-import useMenuStore from '@stores/modules/menu'
+import LayoutTabs from './components/Tabs/index.vue';
 const menuStore = useMenuStore()
 const {isCollapse} =storeToRefs(menuStore)
-const router = useRouter();
-
-console.log(router)
 const listeningWindow = () => {
   window.onresize = () => {
     let screenWidth = document.body.clientWidth;
-    console.log(screenWidth)
-    // if (!isCollapse && screenWidth < 1200) store.dispatch('updateCollapse', true);
-    // if (!isCollapse && screenWidth > 1200) store.dispatch('updateCollapse', false);
+    if (!isCollapse.value && screenWidth < 1200) {
+      menuStore.isCollapse = true
+    }
+    if (isCollapse.value && screenWidth > 1200){
+      menuStore.isCollapse = false
+    }
   };
 };
 
@@ -52,12 +51,17 @@ onMounted(() => {
   height: 100%;
   .el-aside {
     background:@bg-color;
+    border-right: 1px solid #EBECF0;
+    padding: 0 10px;
     & ::-webkit-scrollbar {
       background-color:@bg-color;
     }
     & ::-webkit-scrollbar-thumb {
       background-color: #41444b;
     }
+  }
+  .aside{
+    transition: all 0.4s ease-in-out;
   }
   .el-container {
     /* 防止 tabs 超出不收缩 */
@@ -68,7 +72,7 @@ onMounted(() => {
       padding: 20px;
       margin: 10px 13px;
       overflow: auto;
-      background-color: #ffffff;
+      background-color: #F3F4FA;
       border-radius: 4px;
       box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
       }

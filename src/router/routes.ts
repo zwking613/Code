@@ -1,37 +1,34 @@
-import {RouterType} from './interface/index'
-const router:Array<RouterType> = [
+import { RouterType } from './interface/index'
+import {createPinia} from "pinia";
+import useMenuStore from  '@modules/menu/index.ts'
+const menuStore = useMenuStore(createPinia())
+const router: Array<RouterType> = [
     {
         // 首页
         path: '/',
-        name:'Layout',
+        name: 'Layout',
         component: () => import('@/layouts/index.vue'),
-        meta:{
+        meta: {
             title: '首页',
             icon: 'home',
-            requiresAuth:true
+            requiresAuth: true
         },
-        children: [{
-            path: "/home/index",
-            name:'Home',
-            component: () => import('@views/layout/index.vue'),
-            meta: {
-                requiresAuth: true,
-                icon: 'home',
-                title: "首页",
-            }
-        }]
+        children:menuStore.routerArray
     },
     {
-        // 登录
         path: '/login',
-        name:'Login',
+        name: 'Login',
         component: () => import('@views/login/index.vue'),
-        meta:{
+        meta: {
             title: '登录',
             icon: 'login',
-            requiresAuth:false
-        },
-        children: []
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/:pathMatch(.*)',
+        name:'404',
+        component: ()=>import('@components/errorPage/NotFound.vue')
     }
 ];
 
