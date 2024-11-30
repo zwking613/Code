@@ -1,7 +1,7 @@
 <template>
   <div id="menu">
     <div class="logo-box">
-      <img :src="logo" alt="logo" class="logo-img"/>
+      <img :src="logo" alt="logo" class="logo-img" @click="gotoHome"/>
       <h2 class="logo-text" v-if="!isCollapse">Hooks Admin</h2>
     </div>
     <el-menu
@@ -14,7 +14,7 @@
         :default-active="defaultActive"
         :default-openeds="defaultOpeneds"
     >
-      <template v-for="route in routerArray">
+      <template v-for="route in menuList">
         <el-sub-menu v-if="route.children && route.children.length" :key="route.path"  :index="route.path">
           <template #title>
             <el-icon v-if="route.meta && route.meta.icon">
@@ -48,11 +48,11 @@ import logo from "@/assets/images/logo.png";
 import { getKeyPath, handleRouter } from "@utils/utils.ts";
 import {menuStateType} from '@stores/interface/menu.ts'
 const menuStore = useMenuStore()
-const {isCollapse,defaultActive,defaultOpeneds,routerArray,crumbsList} = storeToRefs(menuStore)
+const {isCollapse,defaultActive,defaultOpeneds,menuList,crumbsList} = storeToRefs(menuStore)
 const router = useRouter()
 const clickMenu = (key: string, keyPath: string[]) => {
   if(crumbsList.value.findIndex((obj:any)=>obj.path === key)===-1){
-    const data = handleRouter(routerArray.value,key, keyPath)
+    const data = handleRouter(menuList.value,key, keyPath)
     menuStore.$patch((state:menuStateType) => {
       state.defaultActive=key
       state.defaultOpeneds=keyPath
@@ -62,10 +62,14 @@ const clickMenu = (key: string, keyPath: string[]) => {
   router.push(key)
 }
 
+const gotoHome=()=>{
+  router.push('/dashboard')
+}
+
 onMounted(()=>{
   const key = router.options.history.location;
-  let keyPath = getKeyPath(routerArray.value,key)
-  const data = handleRouter(routerArray.value,key, keyPath)
+  let keyPath = getKeyPath(menuList.value,key)
+  const data = handleRouter(menuList.value,key, keyPath)
   menuStore.$patch((state:menuStateType) => {
     state.defaultActive=key
     state.defaultOpeneds=keyPath
@@ -90,6 +94,7 @@ onMounted(()=>{
     .logo-img {
       width: 30px;
       margin: 0;
+      cursor: pointer;
     }
 
     .logo-text {

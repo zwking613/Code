@@ -4,7 +4,7 @@ export interface menuStateType {
     isCollapse:boolean,
     defaultActive:string,
     defaultOpeneds:any[],
-    routerArray:RouterType[],
+    menuList:RouterType[],
     crumbsList:any[]
 }
 

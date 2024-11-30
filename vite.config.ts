@@ -32,6 +32,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  esbuild:{drop:['console','debugger']},
   // 配置路径别名
   resolve:{
     alias:{

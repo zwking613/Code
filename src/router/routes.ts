@@ -14,7 +14,7 @@ const router: Array<RouterType> = [
             icon: 'home',
             requiresAuth: true
         },
-        children:menuStore.routerArray
+        children:menuStore.menuList
     },
     {
         path: '/login',

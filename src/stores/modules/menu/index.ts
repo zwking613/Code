@@ -6,7 +6,7 @@ const useMenuStore = defineStore('menu', {
         defaultActive:'',
         defaultOpeneds:[],
         crumbsList:[],
-        routerArray:[ {
+        menuList:[ {
             path: "/dashboard",
             name: 'Dashboard',
             component: () => import('@views/dashboard/index.vue'),
@@ -66,7 +66,7 @@ const useMenuStore = defineStore('menu', {
     }),
     getters: {
     },
-    // persist:true,
+    persist:true,
 })
 
 export default useMenuStore
