@@ -1,7 +1,8 @@
-import routes from './routes';
 import { createRouter, createWebHashHistory ,RouteRecordRaw} from 'vue-router';
+import { showFullScreenLoading, tryHideFullScreenLoading } from "@config/loadingManager";
 import {localGet} from "@utils/utils.ts";
- 
+import routes from './routes';
+let timer = null
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: routes as unknown as Array<RouteRecordRaw>
@@ -9,11 +10,10 @@ export const router = createRouter({
  
 // 下面做路由限制，比如登录验证等
 // 全局前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   // 检查用户是否已登录
-  console.log(from);
-  console.log(to);
   const isLoggedIn = localGet('vue_admin_token');
+  showFullScreenLoading()
   // 如果要访问的页面需要登录，且用户未登录，则重定向到登录页面
   if (to.meta.requiresAuth && !isLoggedIn) {
     next({ name: 'Login' });
@@ -24,9 +24,11 @@ router.beforeEach((to, from, next) => {
 });
  
 // 全局后置守卫
-// router.afterEach((to, from) => {
-//   console.log(to,'后置')
-//   console.log(from,'后置')
-// });
+router.afterEach(() => {
+  if(timer) clearTimeout(timer);
+  setTimeout(()=>{
+    tryHideFullScreenLoading()
+  },200)
+});
  
 export default router;

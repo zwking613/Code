@@ -20,53 +20,22 @@
             <el-icon v-if="route.meta && route.meta.icon">
               <component :is="route.meta.icon" />
             </el-icon>
-            <span>{{ route.meta.title }}</span>
+            <span>{{ route.meta?.title }}</span>
           </template>
           <el-menu-item v-for="child in route.children" :key="child.path" :index="child.path">
             <el-icon v-if="child.meta && child.meta.icon">
               <component :is="child.meta.icon" />
             </el-icon>
-            <span>{{ child.meta.title }}</span>
+            <span>{{ child.meta?.title }}</span>
           </el-menu-item>
         </el-sub-menu>
         <el-menu-item v-else :index="route.path" :key="route.path +'index'">
           <el-icon v-if="route.meta && route.meta.icon">
             <component :is="route.meta.icon" />
           </el-icon>
-          <span>{{ route.meta.title }}</span>
+          <span>{{ route.meta?.title }}</span>
         </el-menu-item>
       </template>
-<!--      <el-menu-item index="/dashboard">-->
-<!--        <el-icon>-->
-<!--          <document/>-->
-<!--        </el-icon>-->
-<!--        <template #title>dashboard</template>-->
-<!--      </el-menu-item>-->
-<!--      <el-sub-menu index="/u">-->
-<!--        <template #title>-->
-<!--          <el-icon><location /></el-icon>-->
-<!--          <span>Navigator One</span>-->
-<!--        </template>-->
-<!--        <el-menu-item index="/user">user</el-menu-item>-->
-<!--      </el-sub-menu>-->
-<!--      <el-menu-item index="/home">-->
-<!--        <el-icon>-->
-<!--          <document/>-->
-<!--        </el-icon>-->
-<!--        <template #title>Home</template>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/test">-->
-<!--        <el-icon>-->
-<!--          <document/>-->
-<!--        </el-icon>-->
-<!--        <template #title>Test</template>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/about">-->
-<!--        <el-icon>-->
-<!--          <setting/>-->
-<!--        </el-icon>-->
-<!--        <template #title>About</template>-->
-<!--      </el-menu-item>-->
     </el-menu>
   </div>
 </template>

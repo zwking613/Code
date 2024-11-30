@@ -1,10 +1,11 @@
 <template>
-  <div id="crumbs">
-    <el-tag @close="close(tag)" @click="handleClick(tag)" class="tag" v-for="tag in crumbsList" :key="tag.path" closable type="primary">
+  <div id="crumbs" class="bg-white border-t border border-solid border-gray-200 p-4 flex items-center overflow-x-auto">
+    <el-tag @close="close(tag)" @click="handleClick(tag)" class="tag cursor-pointer px-2 mr-2" v-for="tag in crumbsList" :key="tag.path" closable type="primary">
       {{ tag.meta?.title }}
     </el-tag>
   </div>
 </template>
+
 <script lang="ts" setup>
 import {storeToRefs} from "pinia";
 import useMenuStore from "@modules/menu";
@@ -13,7 +14,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const menuStore = useMenuStore()
 const {crumbsList}  = storeToRefs(menuStore);
-console.log(crumbsList.value.length);
 const handleClick = (tag:any) =>{
   router.push(tag.path);
   menuStore.$patch((state:menuStateType) => {
@@ -49,23 +49,4 @@ const close = (tag:any) =>{
 }
 </script>
 <style lang="less" scoped>
-#crumbs{
-  height: 50px;
-  max-height: 50px;
-  line-height: 50px;
-  background-color: #ffffff;
-  border-top: 1px solid #ebebeb;
-  padding: 0 15px;
-  display: flex;
-  align-items: center;
-  overflow-y: hidden;
-  overflow-x: auto;
-  .tag{
-    cursor:pointer;
-    padding: 0 10px;
-    margin-right: 5px;
-    background-color: #ffffff;
-    color: #5070FC;
-  }
-}
 </style>

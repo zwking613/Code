@@ -75,6 +75,4 @@ onMounted(() => {
       }
   }
 }
-//overflow-x: hidden;
-
 </style>

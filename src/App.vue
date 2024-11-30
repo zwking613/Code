@@ -1,7 +1,7 @@
 <template>
-  <div id="App">
+  <div id="App" class="w-screen h-screen bg-[#F3F4FA]">
     <!-- 路由出口 -->
-    <RouterView />
+    <RouterView></RouterView>
   </div>
 </template>
 <script setup lang="ts">
@@ -26,8 +26,8 @@ onMounted(() => {
 </script>
 <style lang="less" scoped>
 #App{
-  width: 100vw;
-  height: 100vh;
-  background:#F3F4FA;
+  //width: 100vw;
+  //height: 100vh;
+  //background:#F3F4FA;
 }
 </style>

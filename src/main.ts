@@ -2,6 +2,8 @@ import App from './App.vue'
 import store from '@stores/index.ts'
 import router from '@/router'
 import  EventBus from "@components/loading/eventBus.ts"
+import ALIcon from "@assets/ALIcon";
+
 // 引入Element-plus图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 样式重置
@@ -14,6 +16,10 @@ import '@/styles/tailwind.css'
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
+// 全局注册自己添加加的图标icon
+for (const [key, component] of Object.entries(ALIcon)) {
     app.component(key, component)
 }
 app.use(store)

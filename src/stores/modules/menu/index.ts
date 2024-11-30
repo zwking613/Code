@@ -12,7 +12,7 @@ const useMenuStore = defineStore('menu', {
             component: () => import('@views/dashboard/index.vue'),
             meta: {
                 requiresAuth: true,
-                icon: 'Setting',
+                icon: 'DataAnalysis',
                 title: "首页",
             }
         },{
@@ -30,7 +30,7 @@ const useMenuStore = defineStore('menu', {
             // component: () => import('@views/layout/index.vue'),
             meta: {
                 requiresAuth: true,
-                icon: 'Setting',
+                icon: 'DocumentCopy',
                 title: "HomeUser",
             },
             children: [ {
@@ -39,7 +39,7 @@ const useMenuStore = defineStore('menu', {
                 component: () => import('@views/user/index.vue'),
                 meta: {
                     requiresAuth: true,
-                    icon: 'Setting',
+                    icon: 'MessageBox',
                     title: "User",
                 }
             }
@@ -50,7 +50,7 @@ const useMenuStore = defineStore('menu', {
             component: () => import('@views/about/index.vue'),
             meta: {
                 title: 'About',
-                icon: 'Setting',
+                icon: 'Discount',
                 requiresAuth: false
             }
         }, {
@@ -59,7 +59,7 @@ const useMenuStore = defineStore('menu', {
             component: () => import('@views/test/index.vue'),
             meta: {
                 title: 'Test',
-                icon: 'Setting',
+                icon: 'Notification',
                 requiresAuth: false
             }
         }]
