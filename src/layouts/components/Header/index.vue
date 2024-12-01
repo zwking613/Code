@@ -1,28 +1,21 @@
 <template>
   <div id="header" class="bg-white pl-4 pr-4">
     <el-header class="h-[60px] flex justify-between items-center overflow-x-auto overflow-y-hidden">
-      <div class="cursor-pointer w-9 h-9 rounded-lg bg-gray-200 flex items-center justify-center" >
-        <el-icon size="25" color="#606060" v-if="!isCollapse" @click="setCollapse" >
-          <Fold/>
-        </el-icon>
-        <el-icon size="25" color="#606060" v-else @click="setCollapse" >
-          <Expand/>
+      <div class="cursor-pointer w-9 h-9 rounded-lg flex items-center" >
+        <el-icon size="20" color="#606060"  @click="setCollapse" >
+          <Fold v-if="!isCollapse"/><Expand v-else/>
         </el-icon>
       </div>
       <div class="flex items-center">
-        <el-icon size="25" v-if="!fullScreen" @click="handleFullScreen" color="#606060" class="cursor-pointer mr-4">
-          <ALFullScreen/>
-        </el-icon>
-        <el-icon size="25" v-else @click="handleFullScreen" color="#606060" class="cursor-pointer mr-4">
-          <ALNarrow/>
-        </el-icon>
-        <el-dropdown>
+        <svg-icon class="cursor-pointer mr-4" :icon-class="!fullScreen ? 'ALFullScreen':'ALNarrow'"  @click="handleFullScreen"/>
+        <el-dropdown trigger="click" @command="handleCommand">
           <el-avatar
               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
           />
           <template #dropdown>
-            <el-dropdown-menu @click="dropdownClick">
-              <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-menu>
+              <el-dropdown-item command="center">个人中心</el-dropdown-item>
+              <el-dropdown-item command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -34,13 +27,13 @@
 <script setup lang="ts">
 import {storeToRefs} from "pinia";
 import useMenuStore from '@stores/modules/menu'
-import {useRouter} from 'vue-router'
 import screenfull from 'screenfull'
 import {menuStateType} from "@stores/interface/menu.ts";
-
 const menuStore = useMenuStore()
-const router = useRouter()
 const {isCollapse} = storeToRefs(menuStore)
+import useAppStore from "@modules/app";
+const appStore = useAppStore()
+const { logout } =appStore
 const fullScreen = ref<boolean>(screenfull.isFullscreen)
 
 const setCollapse = () => {
@@ -48,14 +41,23 @@ const setCollapse = () => {
     state.isCollapse = !isCollapse.value
   }) // 修改多个
 }
-const dropdownClick = () => {
-  menuStore.$reset()
-  router.push('/login')
-}
+
 const handleFullScreen = () => {
   if (!screenfull.isEnabled) ElMessage.warning("当前您的浏览器不支持全屏 ❌");
   screenfull.toggle();
 };
+
+const handleCommand = (command:string)=>{
+   switch (command) {
+     case "logout":
+       logout()
+       break;
+     case "center":
+        ElMessage.warning('功能调试中')
+       break;
+   }
+}
+
 onMounted(() => {
   screenfull.on("change", () => {
     if (screenfull.isFullscreen) fullScreen.value = true;

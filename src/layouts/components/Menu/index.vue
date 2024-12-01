@@ -2,7 +2,7 @@
   <div id="menu">
     <div class="logo-box">
       <img :src="logo" alt="logo" class="logo-img" @click="gotoHome"/>
-      <h2 class="logo-text" v-if="!isCollapse">Hooks Admin</h2>
+      <h2 class="logo-text" v-if="!isCollapse">ROBOT</h2>
     </div>
     <el-menu
         active-text-color="#FBFFFF"
@@ -61,13 +61,8 @@ const clickMenu = (key: string, keyPath: string[]) => {
   }
   router.push(key)
 }
-
-const gotoHome=()=>{
-  router.push('/dashboard')
-}
-
-onMounted(()=>{
-  const key = router.options.history.location;
+const getRouter=(params?:string)=>{
+  const key = params|| router.options.history.location;
   let keyPath = getKeyPath(menuList.value,key)
   const data = handleRouter(menuList.value,key, keyPath)
   menuStore.$patch((state:menuStateType) => {
@@ -75,6 +70,17 @@ onMounted(()=>{
     state.defaultOpeneds=keyPath
     state.crumbsList=crumbsList.value.concat([data])
   })
+}
+const gotoHome=()=>{
+  if(crumbsList.value.findIndex((obj:any)=>obj.path === '/dashboard')===-1){
+    router.push('/dashboard')
+    getRouter('/dashboard')
+  }
+
+}
+
+onMounted(()=>{
+  getRouter()
 })
 </script>
 

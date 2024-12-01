@@ -29,7 +29,7 @@ const router: Array<RouterType> = [
     {
         path: '/:pathMatch(.*)',
         name:'404',
-        component: ()=>import('@components/errorPage/NotFound.vue')
+        component: ()=>import('@components/ErrorPage/NotFound.vue')
     }
 ];
 

@@ -116,3 +116,8 @@ export function isNullAndUnDef(val: unknown): val is null | undefined {
 export function isNullOrUnDef(val: unknown): val is null | undefined {
     return isUnDef(val) || isNull(val);
 }
+
+
+export function isExternal(path) {
+    return /^(https?:|mailto:|tel:)/.test(path)
+}

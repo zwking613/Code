@@ -3,13 +3,27 @@
       ref="ruleFormRef"
       :model="form"
       :rules="rules"
-      label-width="100px"
-      class="demo-ruleForm"
+      class="w-full max-w-[400px]"
   >
-    <el-form-item label="用户名" prop="username">
-      <el-input v-model="form.username" placeholder="请输入用户名" prefix-icon="User"></el-input>
+    <!-- 用户名输入框 -->
+    <el-form-item prop="username" class="mb-6">
+      <label class="block text-sm font-medium text-gray-600 mb-2">用户名</label>
+      <el-input
+          v-model="form.username"
+          placeholder="请输入用户名"
+          prefix-icon="User"
+          class="h-[42px]"
+          :input-style="{
+        height: '42px',
+        backgroundColor: 'white',
+        fontSize: '14px'
+      }"
+      />
     </el-form-item>
-    <el-form-item label="密码" prop="password">
+
+    <!-- 密码输入框 -->
+    <el-form-item prop="password" class="mb-6">
+      <label class="block text-sm font-medium text-gray-600 mb-2">密码</label>
       <el-input
           v-model="form.password"
           type="password"
@@ -17,42 +31,72 @@
           prefix-icon="Lock"
           show-password
           autocomplete="new-password"
-      ></el-input>
+          class="h-[42px]"
+          :input-style="{
+        height: '42px',
+        backgroundColor: 'white',
+        fontSize: '14px'
+      }"
+      />
     </el-form-item>
-    <el-form-item label="验证码" prop="code">
-      <el-row>
-        <el-col :span="16">
-          <el-input v-model="form.code" placeholder="请输入验证码" prefix-icon="Compass"></el-input>
-        </el-col>
-        <el-col :span="8">
-          <img :src="logo" style="width: 100%;height:32px" alt="captcha" @click="refreshCaptcha" />
-        </el-col>
-      </el-row>
+
+    <!-- 验证码 -->
+    <el-form-item prop="code" class="mb-8">
+      <label class="block text-sm font-medium text-gray-600 mb-2">验证码</label>
+      <div class="flex gap-3 w-full">
+        <div class="flex-1">
+          <el-input
+              v-model="form.code"
+              placeholder="请输入验证码"
+              prefix-icon="Compass"
+              class="h-[42px]"
+              :input-style="{
+            height: '42px',
+            backgroundColor: 'white',
+            fontSize: '14px'
+          }"
+          />
+        </div>
+        <div class="w-[120px] h-[42px] overflow-hidden rounded-md cursor-pointer hover:opacity-90 transition-opacity shadow-sm">
+          <img
+              :src="`data:image/png;base64,${captchaImage.img}`"
+              class="w-full h-full object-cover"
+              alt="验证码"
+              @click="getCode"
+          />
+        </div>
+      </div>
     </el-form-item>
+
+    <!-- 登录按钮 -->
     <el-form-item>
-      <el-button @click="resetForm(ruleFormRef)">重置</el-button>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
+      <el-button
+          size="large"
+          type="primary"
+          class="w-full h-[44px] !bg-[#1850C5] hover:!bg-[#1545A5] transition-colors duration-300"
+          @keydown.enter="submitForm(ruleFormRef)"
+          @click="submitForm(ruleFormRef)"
+      >
+        <span class="text-[15px] font-semibold">登录</span>
+      </el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts" setup>
-import {ElMessage} from 'element-plus'
 import type {  FormInstance, FormRules } from 'element-plus'
-import {useRouter} from 'vue-router'
-import {login,getCaptchaImage} from "@api/modules/login/login.ts";
-import logo from "@/assets/images/logo.png";
-import { localSet } from "@utils/utils.ts";
-
-const router = useRouter();
-
+import useAppStore from "@modules/app";
+import {storeToRefs} from "pinia";
+const appStore = useAppStore()
+const { captchaImage } = storeToRefs(appStore)
+const { getCode,login } =appStore
 const form = ref({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: 'admin123',
   code:""
 });
 const ruleFormRef = ref<FormInstance>()
-const captchaImage = ref<string>('');
+// let captchaImage = ref();
 const rules = reactive<FormRules>({
   username: [
     {required: true, message: '请输入用户名', trigger: 'blur'},
@@ -71,32 +115,48 @@ const resetForm = (ruleFormRef:FormInstance | undefined) => {
 };
 
 const submitForm =(ruleFormRef:FormInstance | undefined) => {
-  localSet('vue_admin_token','qw')
-  router.push('/dashboard');
-  return
-  if (!ruleFormRef)return;
-  ruleFormRef.validate(async (valid) => {
+  if (!ruleFormRef) return;
+  ruleFormRef.validate( (valid) => {
     if (valid) {
-      const result = await login(form.value)
-      console.log(result)
-      ElMessage.success('提交成功');
+      const data ={
+        uuid:captchaImage.value.uuid as string,
+        ...form.value
+      }
+      login(data);
     } else {
-      ElMessage.success('提交失败');
       console.log('error submit!!');
     }
   });
 
 };
-const refreshCaptcha = async ()=>{
-  const result = await getCaptchaImage()
-  captchaImage.value = '123';
-  console.log(result)
-}
+
 onMounted( ()=>{
-  // refreshCaptcha()
+  getCode()
 })
 </script>
 
 <style scoped>
-/* 在这里添加你的样式 */
+:deep(.el-input__wrapper) {
+  background-color: white !important;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+:deep(.el-input__wrapper:hover) {
+  border-color: #1850C5 !important;
+}
+
+:deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 0 0 2px rgba(24, 80, 197, 0.1) !important;
+  border-color: #1850C5 !important;
+}
+
+:deep(.el-form-item__error) {
+  color: #dc2626;
+}
+
+:deep(.el-button--primary) {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
 </style>

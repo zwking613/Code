@@ -1,115 +1,112 @@
 <template>
-  <div class="login-container">
-    <div class="login-box">
-      <div class="login-left">
-        <img :src="loginLeft" alt="login" />
-      </div>
-      <div class="login-form">
-        <div class="login-logo">
-          <img class="login-icon" :src="logo" alt="logo" />
-          <span class="logo-text">Hooks-Admin</span>
+  <div class="flex w-full">
+    <!-- 左侧蓝色区域：修改高度设置，添加 min-h-screen -->
+    <div class="hidden lg:flex lg:w-1/3 bg-[#1850C5] min-h-screen items-center justify-center">
+      <div class="flex flex-col items-center">
+        <div class="text-white text-4xl font-bold tracking-[0.2em] relative overflow-hidden group">
+          <span class="inline-block hover:scale-110 transition-transform duration-300">R</span>
+          <span class="inline-block hover:scale-110 transition-transform duration-300">O</span>
+          <span class="inline-block hover:scale-110 transition-transform duration-300">B</span>
+          <span class="inline-block hover:scale-110 transition-transform duration-300">O</span>
+          <span class="inline-block hover:scale-110 transition-transform duration-300">T</span>
+          <span class="inline-block mx-3 w-2 h-2 bg-white rounded-full"></span>
+          <span class="text-cyan-300">
+            <span class="inline-block hover:scale-110 transition-transform duration-300">A</span>
+            <span class="inline-block hover:scale-110 transition-transform duration-300">D</span>
+            <span class="inline-block hover:scale-110 transition-transform duration-300">M</span>
+            <span class="inline-block hover:scale-110 transition-transform duration-300">I</span>
+            <span class="inline-block hover:scale-110 transition-transform duration-300">N</span>
+           </span>
+          <div class="h-0.5 w-full bg-gradient-to-r from-transparent via-white/50 to-transparent mt-2"></div>
         </div>
-        <LoginForm />
+      </div>
+    </div>
+
+    <!-- 右侧登录表单：添加 min-h-screen -->
+    <div class="w-full lg:w-2/3 p-8 sm:p-12 flex items-center justify-center min-h-screen">
+      <div class="w-full max-w-[400px]">
+        <div class="mb-10">
+          <!-- 标题部分 -->
+          <div class="relative mb-3">
+            <h1 class="text-3xl font-bold text-gray-800">
+              欢迎登录
+              <span class="text-[#1850C5]">Robot Admin</span>
+            </h1>
+            <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-8 bg-[#1850C5] rounded-full"></div>
+          </div>
+
+          <!-- 副标题 -->
+          <div class="flex flex-col gap-1">
+            <p class="text-gray-500">请使用您的管理员账号登录系统</p>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="text-gray-400">如需帮助，请</span>
+              <a
+                  href="#"
+                  class="text-[#1850C5] hover:text-[#1545A5] font-medium transition-colors duration-300 flex items-center gap-1"
+              >
+                联系系统管理员
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </a>
+          </div>
+        </div>
+        </div>
+       <LoginForm/>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
+import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import LoginForm from "./components/LoginForm.vue";
-import loginLeft from "@/assets/images/login_left.png";
-import logo from "@/assets/images/logo.png";
-</script>
 
-<style scoped lang="less">
+const formRef = ref(null)
 
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 550px;
-  height: 100vh;
-  min-height: 500px;
-  background-color: #eeeeee;
-  background-image: url("@/assets/images/login_bg.svg");
-  background-position: 50%;
-  background-size: 100% 100%;
-  background-size: cover;
-  .login-box {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 96%;
-    height: 94%;
-    padding: 0 4% 0 20px;
-    overflow: hidden;
-    background-color: hsl(0deg 0% 100% / 80%);
-    border-radius: 10px;
-    .login-left {
-      width: 750px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .login-form {
-      padding: 40px 45px 25px;
-      border-radius: 10px;
-      box-shadow: 2px 3px 7px rgb(0 0 0 / 20%);
-      .login-logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 40px;
-        .login-icon {
-          width: 70px;
-        }
-        .logo-text {
-          padding-left: 25px;
-          font-size: 48px;
-          font-weight: bold;
-          color: #475768;
-          white-space: nowrap;
-        }
-      }
-      .ant-form-item {
-        height: 75px;
-        margin-bottom: 0;
-        .ant-input-prefix {
-          margin-right: 10px;
-        }
-        .ant-input-affix-wrapper-lg {
-          padding: 8.3px 11px;
-        }
-        .ant-input-affix-wrapper,
-        .ant-input-lg {
-          font-size: 14px;
-        }
-        .ant-input-affix-wrapper {
-          color: #bfbfbf;
-        }
-      }
-      .login-btn {
-        width: 100%;
-        margin-top: 10px;
-        white-space: nowrap;
-        .ant-form-item-control-input-content {
-          display: flex;
-          justify-content: space-between;
-          .ant-btn {
-            width: 180px;
-            span {
-              font-size: 14px;
-            }
-          }
-          .ant-btn-default {
-            color: #606266;
-          }
-        }
-      }
-    }
-  }
+const form = reactive({
+  email: '',
+  password: '',
+  remember: false
+})
+
+const rules = {
+  email: [
+    { required: true, message: 'Please input email', trigger: 'blur' },
+    { type: 'email', message: 'Please input correct email address', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: 'Please input password', trigger: 'blur' },
+    { min: 6, message: 'Password length should be at least 6 characters', trigger: 'blur' }
+  ]
 }
 
+const handleLogin = async () => {
+  if (!formRef.value) return
+
+  try {
+    await formRef.value.validate()
+    // TODO: 实现登录逻辑
+    console.log('Form submitted:', form)
+    ElMessage.success('Login successful')
+  } catch (error) {
+    console.error('Validation failed:', error)
+    ElMessage.error('Please check your input')
+  }
+}
+</script>
+
+<style scoped>
+:deep(.el-input__wrapper) {
+  background-color: white;
+}
+
+:deep(.el-button--primary) {
+  background-color: #1850C5;
+}
+
+:deep(.el-button--primary:hover) {
+  background-color: #1545A5;
+}
 </style>

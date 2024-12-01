@@ -1,7 +1,7 @@
 import {menuStateType} from '@stores/interface/menu'
 
 const useMenuStore = defineStore('menu', {
-    state: ():menuStateType => ({
+        state: ():menuStateType => ({
         isCollapse: false,
         defaultActive:'',
         defaultOpeneds:[],
@@ -66,7 +66,7 @@ const useMenuStore = defineStore('menu', {
     }),
     getters: {
     },
-    persist:true,
+    // persist:true,
 })
 
 export default useMenuStore

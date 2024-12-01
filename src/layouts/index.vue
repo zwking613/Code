@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <el-aside :collapsed="isCollapse" class="aside" :width="!isCollapse ? '260px':'80px'" >
+    <el-aside :collapsed="isCollapse" class="aside" :width="!isCollapse ? '280px':'80px'" >
       <LayoutMenu></LayoutMenu>
     </el-aside>
     <el-container>
@@ -9,7 +9,11 @@
       </el-header>
       <LayoutTabs/>
         <el-main>
-          <RouterView></RouterView>
+          <router-view v-slot="{ Component }">
+            <transition name="page-fade" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
         </el-main>
     </el-container>
   </div>
@@ -17,10 +21,12 @@
 
 <script lang="ts" setup>
 import {storeToRefs} from 'pinia'
+import useAppStore from "@modules/app";
 import useMenuStore from '@stores/modules/menu'
 import LayoutMenu from './components/Menu/index.vue';
 import LayoutHeader from './components/Header/index.vue';
 import LayoutTabs from './components/Tabs/index.vue';
+const appStore = useAppStore()
 const menuStore = useMenuStore()
 const {isCollapse} =storeToRefs(menuStore)
 const listeningWindow = () => {
@@ -37,6 +43,9 @@ const listeningWindow = () => {
 
 onMounted(() => {
   listeningWindow()
+
+  appStore.getUserInfo()
+
 });
 </script>
 
@@ -49,7 +58,7 @@ onMounted(() => {
   .el-aside {
     background:@bg-color;
     border-right: 1px solid #EBECF0;
-    padding: 0 10px;
+    //padding: 0 10px;
     & ::-webkit-scrollbar {
       background-color:@bg-color;
     }
@@ -66,13 +75,20 @@ onMounted(() => {
     //overflow-x: hidden;
     .el-main {
       box-sizing: border-box;
-      padding: 20px;
-      margin: 10px 13px;
+      //padding: !important;
+      //margin: 10px 13px;
       overflow: auto;
-      background-color: #F3F4FA;
+      //background-color: #F3F4FA;
+      background: #FFFFFF;
       border-radius: 4px;
-      box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+      //box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
       }
+  }
+  .page-fade-enter-active, .page-fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+  .page-fade-enter-from, .page-fade-leave-to {
+    opacity: 0;
   }
 }
 </style>

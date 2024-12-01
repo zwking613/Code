@@ -1,11 +1,13 @@
 <template>
   <div id="App" class="w-screen h-screen bg-[#F3F4FA]">
-    <!-- 路由出口 -->
     <RouterView></RouterView>
   </div>
 </template>
 <script setup lang="ts">
 import config from '@config/webConfig'
+import { useLoadingStore } from '@modules/loading.ts'
+const loadingStore = useLoadingStore()
+
 const initWeb=()=>{
   document.title = config.name
   const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
@@ -18,16 +20,12 @@ const initWeb=()=>{
     document.head.appendChild(newFavicon);
   }
 }
-
 onMounted(() => {
   initWeb()
-  // useTheme()
+  setTimeout(() => {
+    loadingStore.hideLoading()
+  }, 100) // 根据实际需要调整延时
 })
 </script>
 <style lang="less" scoped>
-#App{
-  //width: 100vw;
-  //height: 100vh;
-  //background:#F3F4FA;
-}
 </style>

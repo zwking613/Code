@@ -1,6 +1,6 @@
 import { createVNode, render } from 'vue';
-import EventBus from '@components/loading/eventBus';
-import Loading from '@components/loading/index.vue';
+import EventBus from '@components/RequestLoading/eventBus';
+import Loading from '@components/RequestLoading/index.vue';
 
 let loadingNode:Element | ShadowRoot | null = null;
 

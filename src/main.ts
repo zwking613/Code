@@ -1,8 +1,8 @@
 import App from './App.vue'
 import store from '@stores/index.ts'
 import router from '@/router'
-import  EventBus from "@components/loading/eventBus.ts"
-import ALIcon from "@assets/ALIcon";
+import  EventBus from "@components/RequestLoading/eventBus.ts"
+import SvgIcon from "@components/SvgIcon/index.vue";
 
 // 引入Element-plus图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -13,15 +13,15 @@ import "@/styles/common.less";
 // 引入tailwindcss样式
 import '@/styles/tailwind.css'
 
+import 'virtual:svg-icons-register';
+
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
-// 全局注册自己添加加的图标icon
-for (const [key, component] of Object.entries(ALIcon)) {
-    app.component(key, component)
-}
+
+app.use('svg-icon', SvgIcon);
 app.use(store)
 app.use(EventBus)
 app.use(router)

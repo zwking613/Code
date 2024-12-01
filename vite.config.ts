@@ -3,7 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
+// 引用svg需要的插件
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 // 项目中集成了 unplugin-vue-router 时，此处导入VueRouterAutoImports  需用  代替 vue-router
 // import { VueRouterAutoImports } from 'unplugin-vue-router'
@@ -12,6 +13,12 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     vue(),
+    createSvgIconsPlugin({
+      // Specify the icon folder to be cached
+      iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
+      // Specify symbolId format
+      symbolId: 'icon-[dir]-[name]',
+    }),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -32,7 +39,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
-  esbuild:{drop:['console','debugger']},
+  // esbuild:{drop:['console','debugger']},
   // 配置路径别名
   resolve:{
     alias:{
@@ -67,10 +74,10 @@ export default defineConfig({
     // 代理（解决跨域）
     proxy: {
       '/api':{
-        target: 'http://127.0.0.1:8000',// 后端服务器地址
+        target: 'http://47.109.154.123:8082',// 后端服务
         changeOrigin: true,
         // 去掉请求路径中代理'/api',如果不需要就注释掉
-        rewrite:path => path.replace('/api','')
+        // rewrite:path => path.replace('/api','')
       }
     }
   }

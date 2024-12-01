@@ -1,5 +1,6 @@
 import icon from '/icon.svg'
 export default {
-    name: 'VUE_ADMIN',
+    name: 'ROBOT',
     icon,
+    TOKEN:'ROBOT_TOKEN'
 }

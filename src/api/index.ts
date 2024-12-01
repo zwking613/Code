@@ -6,7 +6,8 @@ import { ResultEnum } from "@config/httpEnum";
 import { checkStatus } from "./helper/checkStatus";
 import { AxiosCanceler } from "./helper/axiosCancel";
 import {ElMessage} from "element-plus";
-
+import {localGet} from "@utils/utils.ts";
+import webConfig from "@config/webConfig.ts";
 const axiosCanceler = new AxiosCanceler();
 
 const config = {
@@ -29,11 +30,10 @@ class RequestHttp {
                 NProgress.start();
                 // * 将当前请求添加到 pending 中
                 axiosCanceler.addPending(config);
-                // * 如果当前请求不需要显示 loading,在api服务中通过指定的第三个参数: { headers: { noLoading: true } }来控制不显示loading，参见loginApi
-                config.headers!.noLoading || showFullScreenLoading();
-                // const token: string = store.getState().global.token;
-                return { ...config, headers: { ...config.headers, "x-access-token": '123' } };
-                // return { ...config, headers: { ...config.headers}};
+                // * 如果当前请求不需要显示 RequestLoading,在api服务中通过指定的第三个参数: { headers: { noLoading: true } }来控制不显示loading
+                if (config.headers.noLoading) showFullScreenLoading();
+                const token: string = localGet(webConfig.TOKEN);
+                return { ...config, headers: { ...config.headers, "Authorization": token } };
             },
             (error: AxiosError) => {
                 return Promise.reject(error);
@@ -51,15 +51,20 @@ class RequestHttp {
                 axiosCanceler.removePending(config);
                 tryHideFullScreenLoading();
                 // * 登录失效（code == 401）
-                if (data.code == ResultEnum.OVERDUE) {
-                    ElMessage.error(data.msg)
+                if (data.status == ResultEnum.OVERDUE) {
+                    ElMessage.error(data.message)
                     window.location.hash = "/login";
                     return Promise.reject(data);
                 }
                 // * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
-                if (data.code && data.code !== ResultEnum.SUCCESS) {
+                if (data.status && data.status !== ResultEnum.SUCCESS) {
                     ElMessage.error(data.msg)
                     return Promise.reject(data);
+                }
+                if(data.code === 401){
+                    ElMessage.error(data.message)
+                    window.location.hash = "/login";
+                    return Promise.reject(data)
                 }
                 // * 成功请求（在页面上除非特殊情况，否则不用处理失败逻辑）
                 return data;
