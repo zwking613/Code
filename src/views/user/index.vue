@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full">
     <el-row :gutter="20">
-      <el-col :span="6" :xs="24">
+      <el-col :span="8" :xs="24">
         <el-card class="mb-4 sm:mb-0">
           <!-- 个人信息卡片头部 -->
           <template #header>
@@ -22,7 +22,7 @@
                   <svg-icon icon-class="user" class="text-gray-500" />
                   <span class="text-sm text-gray-600">用户名称</span>
                 </div>
-                <span class="text-sm text-gray-700">{{ userInfo.nickname }}</span>
+                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.nickname }}</span>
               </li>
 
               <!-- 手机号码 -->
@@ -31,16 +31,16 @@
                   <svg-icon icon-class="phone" class="text-gray-500" />
                   <span class="text-sm text-gray-600">手机号码</span>
                 </div>
-                <span class="text-sm text-gray-700">{{ userInfo.phone }}</span>
+                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.phone }}</span>
               </li>
 
               <!-- 用户邮箱 -->
               <li class="flex items-center justify-between py-3 border-b border-gray-100">
                 <div class="flex items-center gap-2">
                   <svg-icon icon-class="email" class="text-gray-500" />
-                  <span class="text-sm text-gray-600">用户邮箱</span>
+                  <span class="text-sm text-gray-600 ">用户邮箱</span>
                 </div>
-                <span class="text-sm text-gray-700">{{ userInfo.email }}</span>
+                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.email }}</span>
               </li>
 
               <!-- 所属部门 -->
@@ -49,7 +49,7 @@
                   <svg-icon icon-class="tree" class="text-gray-500" />
                   <span class="text-sm text-gray-600">所属部门</span>
                 </div>
-                <span class="text-sm text-gray-700">{{ userInfo.deptName }}</span>
+                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.deptName }}</span>
               </li>
 
               <!-- 所属角色 -->
@@ -58,7 +58,7 @@
                   <svg-icon icon-class="peoples" class="text-gray-500" />
                   <span class="text-sm text-gray-600">所属角色</span>
                 </div>
-                <span class="text-sm text-gray-700">{{ userInfo.roleNames }}</span>
+                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.roleNames }}</span>
               </li>
             </ul>
           </div>
@@ -66,7 +66,7 @@
       </el-col>
 
       <!-- 基本资料卡片 -->
-      <el-col :span="18" :xs="24">
+      <el-col :span="16" :xs="24">
         <el-card>
           <template #header>
             <div class="flex items-center">

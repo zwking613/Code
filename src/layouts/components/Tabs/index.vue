@@ -1,52 +1,112 @@
 <template>
-  <div id="crumbs" class="bg-white border-t border border-solid border-gray-200 p-4 flex items-center overflow-x-auto">
-    <el-tag @close="close(tag)" @click="handleClick(tag)" class="tag cursor-pointer px-2 mr-2" v-for="tag in crumbsList" :key="tag.path" closable type="primary">
-      {{ tag.meta?.title }}
-    </el-tag>
+  <div class="overflow-x-auto overflow-y-hidden flex items-center p-1 bg-white shadow-sm border-b border-solid border-[#dcdfe6] border-t">
+    <div v-for="tag in visitedTags" :key="tag.path" @click="goToTag(tag)"
+      class="flex items-center h-[26px] leading-[26px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6]"
+      :class="[
+        isActive(tag)
+          ? 'bg-[#409EFF] text-white'
+          : 'text-[#666] hover:text-[#409EFF]'
+      ]">
+      <span class="text-[12px]">{{ tag.meta?.title }}</span>
+      <el-icon size="12px" v-if="tag.path !== '/dashboard'" class="ml-[3px] h-[6px] w-[6px]" :class="[
+        isActive(tag)
+          ? 'text-white hover:bg-white/20'
+          : 'text-[#666] hover:text-[#409EFF]'
+      ]" @click.stop="closeTag(tag)">
+        <Close />
+      </el-icon>
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import {storeToRefs} from "pinia";
-import useMenuStore from "@modules/menu";
-import {menuStateType} from '@stores/interface/menu.ts'
-import { useRouter } from "vue-router";
-const router = useRouter();
-const menuStore = useMenuStore()
-const {crumbsList}  = storeToRefs(menuStore);
-const handleClick = (tag:any) =>{
-  router.push(tag.path);
-  menuStore.$patch((state:menuStateType) => {
-    state.defaultActive=tag.path
-    state.defaultOpeneds=tag.keyPath
-  })
-}
-const close = (tag:any) =>{
-  if(crumbsList.value.length  === 1){
-    menuStore.$patch((state:menuStateType) => {
-      state.defaultActive='/dashboard'
-      state.defaultOpeneds=['/dashboard']
-      state.crumbsList=[{
-        keyPath:['/dashboard'],
-        meta: {requiresAuth: true, icon: 'home', title: '首页'},
-        name: "/dashboard",
-        path: "/dashboard"
-      }]
-    })
-    router.push('/dashboard');
-    return
-  }
-  // const filter
-  let index = crumbsList.value.findIndex((obj:any) => obj.path === tag.path)
-  let data = crumbsList.value[index-1] || crumbsList.value[index+1]
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import {getKeyPath} from '@utils/utils'
+import routerList from '@router/routes'
+import useMenuStore from '@modules/menu'
+import {menuStateType} from '@stores/interface/menu'
+import type { RouteLocationNormalized } from 'vue-router'
 
-  menuStore.$patch((state:menuStateType) => {
-    state.defaultActive=data.path
-    state.defaultOpeneds=data.keyPath
-    state.crumbsList=crumbsList.value.filter((item:any) => item.path !== tag.path)
-  })
-  router.push(data.path);
+interface TagItem {
+  path: string
+  meta?: {
+    title?: string
+    icon?: string
+  }
 }
+
+const menuStore = useMenuStore()
+const route = useRoute()
+const router = useRouter()
+
+// 初始化首页标签
+const visitedTags = ref<TagItem[]>([
+  {
+    path: '/dashboard',
+    meta: { title: '首页' }
+  }
+])
+
+const isActive = (tag: TagItem) => {
+  return tag.path === route.path
+}
+
+const addTag = (route: RouteLocationNormalized) => {
+  if (!route.meta?.title) return
+  const isExist = visitedTags.value.some(tag => tag.path === route.path)
+  if (!isExist) {
+    visitedTags.value.push({
+      path: route.path,
+      meta: {
+        title: route.meta.title as string,
+      }
+    })
+  }
+}
+
+const closeTag = (tag: TagItem) => {
+  if (tag.path === '/dashboard') return
+
+  const index = visitedTags.value.findIndex(v => v.path === tag.path)
+  visitedTags.value.splice(index, 1)
+
+  if (isActive(tag)) {
+    const nextTag = visitedTags.value[index] || visitedTags.value[index - 1]
+    if (nextTag) {
+      router.push(nextTag.path)
+    }
+  }
+}
+
+const goToTag = (tag: TagItem) => {
+  if (tag.path === route.path) return;
+  const pathKey:string [] = getKeyPath(routerList,tag.path)
+  router.push(tag.path)
+  menuStore.$patch((state:menuStateType)=>{
+    state.defaultActive = tag.path
+    state.defaultOpeneds= pathKey
+  })
+}
+
+watch(
+  () => route.path,
+  () => {
+    if (route.meta?.title) {
+      addTag(route)
+    }
+  },
+  { immediate: true }
+)
 </script>
-<style lang="less" scoped>
+
+<style scoped>
+.el-icon {
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.el-icon:hover {
+  transform: scale(1.2);
+}
 </style>

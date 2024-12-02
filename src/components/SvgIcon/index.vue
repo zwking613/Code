@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-on="$attrs" @click="handleClick" />
-  <svg v-else :class="svgClass" aria-hidden="true" v-on="$attrs" @click="handleClick">
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon"  @click="handleClick" />
+  <svg v-else :class="svgClass" aria-hidden="true"  @click="handleClick">
     <use :xlink:href="iconName" />
   </svg>
 </template>
@@ -26,7 +26,7 @@ export default defineComponent({
     const iconName = computed(() => `#icon-${props.iconClass}`);
     const svgClass = computed(() => {
       if (props.className) {
-        return 'svg-icon ' + props.className;
+        return 'svg-icon' + props.className;
       } else {
         return 'svg-icon';
       }

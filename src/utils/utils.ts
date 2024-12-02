@@ -1,4 +1,5 @@
 import {  RouterType } from "@router/interface"
+
 export const localGet = (key: string) => {
     const value = window.localStorage.getItem(key);
     try {

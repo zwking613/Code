@@ -1,10 +1,10 @@
 export interface AppStateType {
-    userInfo:UserInfoType |{} |undefined,
-    captchaImage:CaptchaImgType | {}
+    userInfo:UserInfoType | {},
+    captchaImage:CaptchaImgType
 }
 export interface CaptchaImgType {
-    img:string
-    uuid:string
+    img?:string
+    uuid?:string
 }
 export interface UserInfoType {
     avatar: string;

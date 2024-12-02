@@ -3,6 +3,7 @@ import {menuStateType} from '@stores/interface/menu'
 const useMenuStore = defineStore('menu', {
         state: ():menuStateType => ({
         isCollapse: false,
+        isShowOverlay: false,
         defaultActive:'',
         defaultOpeneds:[],
         crumbsList:[],

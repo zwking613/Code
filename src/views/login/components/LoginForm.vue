@@ -7,7 +7,7 @@
   >
     <!-- 用户名输入框 -->
     <el-form-item prop="username" class="mb-6">
-      <label class="block text-sm font-medium text-gray-600 mb-2">用户名</label>
+      <label class="block mb-2 text-sm font-medium text-gray-600">用户名</label>
       <el-input
           v-model="form.username"
           placeholder="请输入用户名"
@@ -23,7 +23,7 @@
 
     <!-- 密码输入框 -->
     <el-form-item prop="password" class="mb-6">
-      <label class="block text-sm font-medium text-gray-600 mb-2">密码</label>
+      <label class="block mb-2 text-sm font-medium text-gray-600">密码</label>
       <el-input
           v-model="form.password"
           type="password"
@@ -42,7 +42,7 @@
 
     <!-- 验证码 -->
     <el-form-item prop="code" class="mb-8">
-      <label class="block text-sm font-medium text-gray-600 mb-2">验证码</label>
+      <label class="block mb-2 text-sm font-medium text-gray-600">验证码</label>
       <div class="flex gap-3 w-full">
         <div class="flex-1">
           <el-input
@@ -60,7 +60,7 @@
         <div class="w-[120px] h-[42px] overflow-hidden rounded-md cursor-pointer hover:opacity-90 transition-opacity shadow-sm">
           <img
               :src="`data:image/png;base64,${captchaImage.img}`"
-              class="w-full h-full object-cover"
+              class="object-cover w-full h-full"
               alt="验证码"
               @click="getCode"
           />
@@ -109,10 +109,10 @@ const rules = reactive<FormRules>({
   ],
 });
 
-const resetForm = (ruleFormRef:FormInstance | undefined) => {
-  if (!ruleFormRef)return;
-  ruleFormRef.resetFields();
-};
+// const resetForm = (ruleFormRef:FormInstance | undefined) => {
+//   if (!ruleFormRef)return;
+//   ruleFormRef.resetFields();
+// };
 
 const submitForm =(ruleFormRef:FormInstance | undefined) => {
   if (!ruleFormRef) return;

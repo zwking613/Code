@@ -5,6 +5,7 @@ export interface menuStateType {
     defaultActive:string,
     defaultOpeneds:any[],
     menuList:RouterType[],
+    isShowOverlay:boolean,
     crumbsList:any[]
 }
 
