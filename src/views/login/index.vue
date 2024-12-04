@@ -4,26 +4,26 @@
     <div class="hidden lg:flex lg:w-1/3 bg-[#1850C5] min-h-screen items-center justify-center">
       <div class="flex flex-col items-center">
         <div class="text-white text-4xl font-bold tracking-[0.2em] relative overflow-hidden group">
-          <span class="inline-block hover:scale-110 transition-transform duration-300">R</span>
-          <span class="inline-block hover:scale-110 transition-transform duration-300">O</span>
-          <span class="inline-block hover:scale-110 transition-transform duration-300">B</span>
-          <span class="inline-block hover:scale-110 transition-transform duration-300">O</span>
-          <span class="inline-block hover:scale-110 transition-transform duration-300">T</span>
+          <span class="inline-block transition-transform duration-300 hover:scale-110">R</span>
+          <span class="inline-block transition-transform duration-300 hover:scale-110">O</span>
+          <span class="inline-block transition-transform duration-300 hover:scale-110">B</span>
+          <span class="inline-block transition-transform duration-300 hover:scale-110">O</span>
+          <span class="inline-block transition-transform duration-300 hover:scale-110">T</span>
           <span class="inline-block mx-3 w-2 h-2 bg-white rounded-full"></span>
           <span class="text-cyan-300">
-            <span class="inline-block hover:scale-110 transition-transform duration-300">A</span>
-            <span class="inline-block hover:scale-110 transition-transform duration-300">D</span>
-            <span class="inline-block hover:scale-110 transition-transform duration-300">M</span>
-            <span class="inline-block hover:scale-110 transition-transform duration-300">I</span>
-            <span class="inline-block hover:scale-110 transition-transform duration-300">N</span>
+            <span class="inline-block transition-transform duration-300 hover:scale-110">A</span>
+            <span class="inline-block transition-transform duration-300 hover:scale-110">D</span>
+            <span class="inline-block transition-transform duration-300 hover:scale-110">M</span>
+            <span class="inline-block transition-transform duration-300 hover:scale-110">I</span>
+            <span class="inline-block transition-transform duration-300 hover:scale-110">N</span>
            </span>
-          <div class="h-0.5 w-full bg-gradient-to-r from-transparent via-white/50 to-transparent mt-2"></div>
+          <div class="mt-2 w-full h-0.5 bg-gradient-to-r from-transparent to-transparent via-white/50"></div>
         </div>
       </div>
     </div>
 
     <!-- 右侧登录表单：添加 min-h-screen -->
-    <div class="w-full lg:w-2/3 p-8 sm:p-12 flex items-center justify-center min-h-screen">
+    <div class="flex justify-center items-center p-8 w-full min-h-screen lg:w-2/3 sm:p-12">
       <div class="w-full max-w-[400px]">
         <div class="mb-10">
           <!-- 标题部分 -->
@@ -38,14 +38,14 @@
           <!-- 副标题 -->
           <div class="flex flex-col gap-1">
             <p class="text-gray-500">请使用您的管理员账号登录系统</p>
-            <div class="flex items-center gap-2 text-sm">
+            <div class="flex gap-2 items-center text-sm">
               <span class="text-gray-400">如需帮助，请</span>
               <a
                   href="#"
                   class="text-[#1850C5] hover:text-[#1545A5] font-medium transition-colors duration-300 flex items-center gap-1"
               >
                 联系系统管理员
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
               </a>

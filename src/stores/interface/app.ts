@@ -1,5 +1,5 @@
 export interface AppStateType {
-    userInfo:UserInfoType | {},
+    userInfo:UserInfoType,
     captchaImage:CaptchaImgType
 }
 export interface CaptchaImgType {

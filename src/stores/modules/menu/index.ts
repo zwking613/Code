@@ -1,5 +1,5 @@
 import {menuStateType} from '@stores/interface/menu'
-
+import * as menuApi from '@api/modules/menu'
 const useMenuStore = defineStore('menu', {
         state: ():menuStateType => ({
         isCollapse: false,
@@ -67,7 +67,18 @@ const useMenuStore = defineStore('menu', {
     }),
     getters: {
     },
-    // persist:true,
+    actions: {
+        async getMenuList() {
+            console.log('getMenuList')
+            // const result = await menuApi.getMenuList()
+            // if(result.success) {
+            //     this.menuList = result.data as menuStateType['menuList']
+            // } else {
+            //     ElMessage.error(result.message)
+            // }
+        }
+    },
+    persist:true,
 })
 
 export default useMenuStore

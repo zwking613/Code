@@ -7,7 +7,32 @@ import router from "@router/index"
 
 const useAppStore = defineStore('app', {
     state: (): AppStateType => ({
-        userInfo: {},
+        userInfo: {
+          avatar: '',
+          beginTime: null,
+          createBy: 0,
+          createTime: '',
+          deptId: 0,
+          deptName: '',
+          email: '',
+          endTime: null,
+          id: 0,
+          isDeleted: false,
+          loginDate: '',
+          loginIp: '',
+          nickname: '',
+          password: '',
+          phone: '',
+          remark: '',
+          roleIds: null,
+          roleNames: null,
+          roles: undefined,
+          sex: '',
+          status: '',
+          updateBy: 0,
+          updateTime: '',
+          username: ''
+        } as UserInfoType,
         captchaImage: {}
     }),
     getters: {},

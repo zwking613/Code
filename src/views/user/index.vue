@@ -17,48 +17,48 @@
             </div>
             <ul class="space-y-1">
               <!-- 用户名称 -->
-              <li class="flex items-center justify-between py-3 border-t border-b border-gray-100">
-                <div class="flex items-center gap-2">
+              <li class="flex justify-between items-center py-3 border-t border-b border-gray-100">
+                <div class="flex gap-2 items-center">
                   <svg-icon icon-class="user" class="text-gray-500" />
                   <span class="text-sm text-gray-600">用户名称</span>
                 </div>
-                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.nickname }}</span>
+                <span class="overflow-hidden text-sm text-gray-700 text-ellipsis">{{ userInfo.nickname }}</span>
               </li>
 
               <!-- 手机号码 -->
-              <li class="flex items-center justify-between py-3 border-b border-gray-100">
-                <div class="flex items-center gap-2">
+              <li class="flex justify-between items-center py-3 border-b border-gray-100">
+                <div class="flex gap-2 items-center">
                   <svg-icon icon-class="phone" class="text-gray-500" />
                   <span class="text-sm text-gray-600">手机号码</span>
                 </div>
-                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.phone }}</span>
+                <span class="overflow-hidden text-sm text-gray-700 text-ellipsis">{{ userInfo.phone }}</span>
               </li>
 
               <!-- 用户邮箱 -->
-              <li class="flex items-center justify-between py-3 border-b border-gray-100">
-                <div class="flex items-center gap-2">
+              <li class="flex justify-between items-center py-3 border-b border-gray-100">
+                <div class="flex gap-2 items-center">
                   <svg-icon icon-class="email" class="text-gray-500" />
-                  <span class="text-sm text-gray-600 ">用户邮箱</span>
+                  <span class="text-sm text-gray-600">用户邮箱</span>
                 </div>
-                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.email }}</span>
+                <span class="overflow-hidden text-sm text-gray-700 text-ellipsis">{{ userInfo.email }}</span>
               </li>
 
               <!-- 所属部门 -->
-              <li class="flex items-center justify-between py-3 border-b border-gray-100">
-                <div class="flex items-center gap-2">
+              <li class="flex justify-between items-center py-3 border-b border-gray-100">
+                <div class="flex gap-2 items-center">
                   <svg-icon icon-class="tree" class="text-gray-500" />
                   <span class="text-sm text-gray-600">所属部门</span>
                 </div>
-                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.deptName }}</span>
+                <span class="overflow-hidden text-sm text-gray-700 text-ellipsis">{{ userInfo.deptName }}</span>
               </li>
 
               <!-- 所属角色 -->
-              <li class="flex items-center justify-between py-3 border-b border-gray-100">
-                <div class="flex items-center gap-2">
+              <li class="flex justify-between items-center py-3 border-b border-gray-100">
+                <div class="flex gap-2 items-center">
                   <svg-icon icon-class="peoples" class="text-gray-500" />
                   <span class="text-sm text-gray-600">所属角色</span>
                 </div>
-                <span class="text-sm text-gray-700 text-ellipsis overflow-hidden ">{{ userInfo.roleNames }}</span>
+                <span class="overflow-hidden text-sm text-gray-700 text-ellipsis">{{ userInfo.roleNames }}</span>
               </li>
             </ul>
           </div>
@@ -97,6 +97,6 @@ import useAppStore from "@modules/app"
 import { storeToRefs } from "pinia"
 
 const appStore = useAppStore()
-const { userInfo } = storeToRefs(appStore)
+const { userInfo }= storeToRefs(appStore)
 const activeTab = ref('userinfo')
 </script>
