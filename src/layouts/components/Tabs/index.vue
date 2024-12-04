@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-x-auto overflow-y-hidden flex items-center p-1 bg-white shadow-sm border-b border-solid border-[#dcdfe6] border-t">
+  <div class="overflow-x-auto overflow-y-hidden flex items-center p-2 bg-white shadow-sm border-solid border-[#dcdfe6] border-t">
     <div v-for="tag in visitedTags" :key="tag.path" @click="goToTag(tag)"
       class="flex items-center h-[26px] leading-[26px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6]"
       :class="[
@@ -7,8 +7,9 @@
           ? 'bg-[#409EFF] text-white'
           : 'text-[#666] hover:text-[#409EFF]'
       ]">
+      <span v-if=" isActive(tag)" class="block w-[6px] h-[6px] bg-[#f8f8f8] rounded-full mr-[8px]"></span>
       <span class="text-[12px]">{{ tag.meta?.title }}</span>
-      <el-icon size="12px" v-if="tag.path !== '/dashboard'" class="ml-[3px] h-[6px] w-[6px]" :class="[
+      <el-icon size="12px" v-if="tag.path !== webConfig.PATH" class="ml-[3px] h-[6px] w-[6px]" :class="[
         isActive(tag)
           ? 'text-white hover:bg-white/20'
           : 'text-[#666] hover:text-[#409EFF]'
@@ -27,6 +28,7 @@ import routerList from '@router/routes'
 import useMenuStore from '@modules/menu'
 import {menuStateType} from '@stores/interface/menu'
 import type { RouteLocationNormalized } from 'vue-router'
+import webConfig from '@/config/webConfig'
 
 interface TagItem {
   path: string
@@ -43,7 +45,7 @@ const router = useRouter()
 // 初始化首页标签
 const visitedTags = ref<TagItem[]>([
   {
-    path: '/dashboard',
+    path: webConfig.PATH,
     meta: { title: '首页' }
   }
 ])
@@ -66,7 +68,7 @@ const addTag = (route: RouteLocationNormalized) => {
 }
 
 const closeTag = (tag: TagItem) => {
-  if (tag.path === '/dashboard') return
+  if (tag.path === webConfig.PATH) return
 
   const index = visitedTags.value.findIndex(v => v.path === tag.path)
   visitedTags.value.splice(index, 1)

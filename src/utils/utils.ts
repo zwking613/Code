@@ -1,4 +1,9 @@
 import {  RouterType } from "@router/interface"
+import path from "path";
+/** 
+ * 引入 views 文件夹下所有 vue 文件
+ */
+const modules = import.meta.glob("@/views/**/*.vue");
 
 export const localGet = (key: string) => {
     const value = window.localStorage.getItem(key);
@@ -84,4 +89,27 @@ export const getKeyPath = (data:RouterType[], targetPath:string, currentPath:any
         }
     }
     return result;
+}
+
+/** 
+ * 生成菜单
+ */
+export const generateMenu = (data:RouterType[]) => {
+    let menuList:any[] = [];
+    for (let item of data) {
+        if (item.children) {
+            menuList.push({
+                ...item,
+                children:generateMenu(item.children)
+            });
+        } else {
+            menuList.push({
+                ...item,
+                path:"/"+item.path,
+                // component:modules["/src/views/" + item.component + ".vue"]
+                component: () => import(`@views/${item.component}.vue`)
+            });
+        }
+    }
+    return menuList;
 }

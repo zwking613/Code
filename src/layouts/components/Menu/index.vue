@@ -1,9 +1,9 @@
 <template>
-  <div id="menu">
-    <div class="logo-box">
+  <div id="menu" class="flex flex-col w-full h-full">
+    <div class="logo-box flex items-center justify-center h-[55px]">
       <!-- <img :src="logo" alt="logo" class="logo-img" @click="gotoHome" /> -->
-       <svg-icon class="logo-img" icon-class="404" @click="gotoHome" />
-      <h2 class="logo-text" v-if="!isCollapse">ROBOT</h2>
+       <svg-icon class="text-[40px] text-[#1A54B0] m-0 cursor-pointer" icon-class="logo" @click="gotoHome" />
+      <h2 :class="`${!isCollapse ? 'w-auto' : 'w-0'} ml-[10px] text-[24px] font-bold text-[#1A54B0] overflow-hidden transition-all duration-300`">ROBOT</h2>
     </div>
     <el-menu :collapse="isCollapse" class="el-menu-vertical-demo" :unique-opened="true" @select="clickMenu"
       :default-active="defaultActive" :default-openeds="defaultOpeneds">
@@ -45,11 +45,11 @@
 import { storeToRefs } from "pinia";
 import { useRouter } from 'vue-router'
 import useMenuStore from '@stores/modules/menu'
-// import logo from "@/assets/images/logo.png";
 import { getKeyPath, handleRouter } from "@utils/utils.ts";
 import { menuStateType } from '@stores/interface/menu.ts'
 const menuStore = useMenuStore()
 const {  defaultActive, defaultOpeneds, menuList, crumbsList } = storeToRefs(menuStore)
+
 const { isCollapse } = defineProps<{isCollapse: boolean}>() 
 const router = useRouter()
 const clickMenu = (key: string, keyPath: string[]) => {
@@ -85,30 +85,6 @@ onMounted(() => {
 
 <style lang="less">
 #menu {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  .logo-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 55px;
-
-    .logo-img {
-      width: 30px;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    .logo-text {
-      margin: 0 0 0 10px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #1A54B0;
-      white-space: nowrap;
-    }
-  }
 
   .el-menu {
     border: none;
@@ -129,6 +105,10 @@ onMounted(() => {
       }
     }
 
+    .el-menu .el-menu-item {
+      padding-left: 48px !important;
+    }
+
     .el-sub-menu {
       &.is-active {
         .el-sub-menu__title {
@@ -147,7 +127,6 @@ onMounted(() => {
       line-height: 44px;
       padding: 0 16px;
       font-size: 17px !important;
-
       &:hover {
         background-color: #EFF6FF !important;
       }

@@ -18,7 +18,25 @@
 	padding:0 !important;
 }
 
+/* Light theme (default) */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #e4e4e4;
+}
 
+/* Dark theme */
+[data-theme='dark'] {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+  --border-color: #333333;
+}
+
+/* 应用主题变量 */
+#header {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
 // .el-menu-item.is-active {
 // 	background-color: @active-bg !important;
 // 	border-radius: 5px;

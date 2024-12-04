@@ -7,7 +7,7 @@
       <el-header class="border-b border-solid border-[#e0e0e0]">
         <LayoutHeader :setCollapse="setCollapse"></LayoutHeader>
       </el-header>
-      <LayoutTabs />
+       <LayoutTabs />
       <el-main>
         <router-view v-slot="{ Component }">
           <transition name="page-fade" mode="out-in">

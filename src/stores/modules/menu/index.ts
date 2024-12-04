@@ -1,5 +1,7 @@
 import {menuStateType} from '@stores/interface/menu'
 import * as menuApi from '@api/modules/menu'
+import { generateMenu } from '@utils/utils'
+// 引入 views 文件夹下所有 vue 文件
 const useMenuStore = defineStore('menu', {
         state: ():menuStateType => ({
         isCollapse: false,
@@ -69,8 +71,12 @@ const useMenuStore = defineStore('menu', {
     },
     actions: {
         async getMenuList() {
-            console.log('getMenuList')
-            // const result = await menuApi.getMenuList()
+            const result = await menuApi.getMenuList()
+            if(result.success){
+                let data = generateMenu(result.data as any[])
+                this.menuList = data
+                console.log(data,'=====data=====')
+            }
             // if(result.success) {
             //     this.menuList = result.data as menuStateType['menuList']
             // } else {
@@ -78,7 +84,7 @@ const useMenuStore = defineStore('menu', {
             // }
         }
     },
-    persist:true,
+    // persist:true,
 })
 
 export default useMenuStore
