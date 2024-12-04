@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import config from '@config/webConfig'
 import { useLoadingStore } from '@modules/loading.ts'
+import { addDynamicRoutes } from '@router/index'
 const loadingStore = useLoadingStore()
 
 const initWeb = async () => {
@@ -20,8 +21,8 @@ const initWeb = async () => {
     newFavicon.href = config.icon;
     document.head.appendChild(newFavicon);
   }
-
-  // 设置动态路由
+  // 动态添加路由
+  await addDynamicRoutes()
 }
 
 onMounted(async () => {

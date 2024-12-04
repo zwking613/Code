@@ -1,8 +1,5 @@
 import {  RouterType } from "@router/interface"
-import path from "path";
-/** 
- * 引入 views 文件夹下所有 vue 文件
- */
+
 const modules = import.meta.glob("@/views/**/*.vue");
 
 export const localGet = (key: string) => {
@@ -100,12 +97,13 @@ export const generateMenu = (data:RouterType[]) => {
         if (item.children) {
             menuList.push({
                 ...item,
+                path: item.path.startsWith('/') ? item.path : "/" + item.path,
                 children:generateMenu(item.children)
             });
         } else {
             menuList.push({
                 ...item,
-                path:"/"+item.path,
+                path: item.path.startsWith('/') ? item.path : "/" + item.path,
                 component:modules["/src/views/" + item.component + ".vue"]
             });
         }

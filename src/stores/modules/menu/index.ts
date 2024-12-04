@@ -9,78 +9,19 @@ const useMenuStore = defineStore('menu', {
         defaultActive: '',
         defaultOpeneds: [],
         crumbsList: [],
-        menuList: [{
-            path: "/dashboard",
-            name: 'Dashboard',
-            component: () => import('@views/dashboard/index.vue'),
-            meta: {
-                requiresAuth: true,
-                icon: 'DataAnalysis',
-                title: "首页",
-            }
-        }, {
-            path: "/home",
-            name: 'Home',
-            component: () => import('@views/layout/index.vue'),
-            meta: {
-                requiresAuth: true,
-                icon: 'Setting',
-                title: "Home",
-            }
-        }, {
-            path: "/u",
-            name: 'HomeUser',
-            meta: {
-                requiresAuth: true,
-                icon: 'DocumentCopy',
-                title: "HomeUser",
-            },
-            children: [{
-                path: '/about',
-                name: 'About',
-                component: () => import('@views/about/index.vue'),
-                meta: {
-                    title: 'About',
-                    icon: 'Discount',
-                    requiresAuth: false
-                }
-            }, {
-                path: "/user21",
-                name: 'User-1',
-                // component: () => import('@views/user/index.vue'),
-                children: [
-                    {
-                        path: '/test',
-                        name: 'Test',
-                        component: () => import('@views/test/index.vue'),
-                        meta: {
-                            title: 'Test',
-                            icon: 'Notification',
-                            requiresAuth: false
-                        }
-                    }
-                ],
-                meta: {
-                    requiresAuth: true,
-                    icon: 'MessageBox',
-                    title: "User",
-                }
-            }]
-        }]
+        menuList: []
     }),
-    getters: {
-    },
     actions: {
         async getMenuList() {
-            const result = await menuApi.getMenuList()
+            const result: any = await menuApi.getMenuList()
             if (result.success) {
-                let data = generateMenu(result.data as any[])
+                let data = generateMenu(result.data.slice(0, result.data.length - 2) )
                 this.menuList = data
-                console.log(data, '=====data=====')
+                return data
             }
         }
     },
-    // persist:true,
+    persist:true, // 持久化存储
 })
 
 export default useMenuStore
