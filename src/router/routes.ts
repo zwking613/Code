@@ -1,10 +1,12 @@
+
 import { RouterType } from './interface/index'
-import {createPinia} from "pinia";
-import useMenuStore from  '@modules/menu/index.ts'
+import { createPinia } from "pinia"
+import useMenuStore from '@modules/menu/index.ts'
+
 const menuStore = useMenuStore(createPinia())
+
 const router: Array<RouterType> = [
     {
-        // 首页
         path: '/',
         name: 'Layout',
         redirect: '/dashboard',
@@ -14,7 +16,7 @@ const router: Array<RouterType> = [
             icon: 'home',
             requiresAuth: true
         },
-        children:menuStore.menuList
+        children: menuStore.menuList
     },
     {
         path: '/login',
@@ -28,9 +30,10 @@ const router: Array<RouterType> = [
     },
     {
         path: '/:pathMatch(.*)',
-        name:'404',
-        component: ()=>import('@components/ErrorPage/NotFound.vue')
+        name: '404',
+        component: () => import('@components/ErrorPage/NotFound.vue')
     }
 ];
 
-export default router
+
+export default router;

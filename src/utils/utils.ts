@@ -106,8 +106,7 @@ export const generateMenu = (data:RouterType[]) => {
             menuList.push({
                 ...item,
                 path:"/"+item.path,
-                // component:modules["/src/views/" + item.component + ".vue"]
-                component: () => import(`@views/${item.component}.vue`)
+                component:modules["/src/views/" + item.component + ".vue"]
             });
         }
     }

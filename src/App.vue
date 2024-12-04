@@ -1,11 +1,3 @@
-<!--
- * @Author: zZzwWw 348721637@qq.com
- * @Date: 2024-11-27 17:02:48
- * @LastEditors: zZzwWw 348721637@qq.com
- * @LastEditTime: 2024-12-04 11:30:22
- * @FilePath: \vue_admin\src\App.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div id="App" class="w-screen h-screen bg-[#F3F4FA]">
     <RouterView></RouterView>
@@ -16,7 +8,8 @@ import config from '@config/webConfig'
 import { useLoadingStore } from '@modules/loading.ts'
 const loadingStore = useLoadingStore()
 
-const initWeb=()=>{
+const initWeb = async () => {
+  // 设置网站标题和图标
   document.title = config.name
   const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
   if (favicon) {
@@ -27,13 +20,16 @@ const initWeb=()=>{
     newFavicon.href = config.icon;
     document.head.appendChild(newFavicon);
   }
+
+  // 设置动态路由
 }
-onMounted(() => {
-  initWeb()
+
+onMounted(async () => {
+  await initWeb()
   document.documentElement.setAttribute('data-theme', 'light')
   setTimeout(() => {
     loadingStore.hideLoading()
-  }, 1000) // 根据实际需要调整延时
+  }, 1000)
 })
 </script>
 <style lang="less" scoped>

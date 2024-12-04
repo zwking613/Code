@@ -7,7 +7,7 @@
       <el-header class="border-b border-solid border-[#e0e0e0]">
         <LayoutHeader :setCollapse="setCollapse"></LayoutHeader>
       </el-header>
-       <LayoutTabs />
+      <LayoutTabs />
       <el-main>
         <router-view v-slot="{ Component }">
           <transition name="page-fade" mode="out-in">
@@ -32,9 +32,8 @@ import useMenuStore from '@stores/modules/menu';
 import LayoutMenu from './components/Menu/index.vue';
 import LayoutHeader from './components/Header/index.vue';
 import LayoutTabs from './components/Tabs/index.vue';
-import useAppStore from '@stores/modules/app';
+
 const menuStore = useMenuStore();
-const appStore = useAppStore();
 // const { isCollapse ,isShowOverlay} = storeToRefs(menuStore);
 const { isCollapse } = storeToRefs(menuStore);
 const isShowAside = ref(false);
@@ -81,8 +80,6 @@ const handleResize = () => {
 onMounted(() => {
   window.addEventListener('resize', handleResize);
   handleResize(); // 初始化时检查窗口大小
-  menuStore.getMenuList()
-  appStore.getUserInfo()
 });
 
 onBeforeUnmount(() => {
