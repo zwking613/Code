@@ -14,7 +14,7 @@
           />
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="center">个人中心</el-dropdown-item>
+              <el-dropdown-item command="personal_center">个人中心</el-dropdown-item>
               <el-dropdown-item command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -29,10 +29,11 @@ import useMenuStore from '@stores/modules/menu'
 import screenfull from 'screenfull'
 import useAppStore from "@modules/app";
 import Breadcrumb from "./Breadcrumb.vue";
+import {useRouter} from "vue-router";
 const menuStore = useMenuStore()
 const {isCollapse} = storeToRefs(menuStore)
 const { setCollapse } = defineProps<{setCollapse: ()=>void}>() 
-
+const router = useRouter()
 const appStore = useAppStore()
 const { logout } =appStore
 const fullScreen = ref<boolean>(screenfull.isFullscreen)
@@ -49,8 +50,9 @@ const handleCommand = (command:string)=>{
      case "logout":
        logout()
        break;
-     case "center":
-        ElMessage.warning('功能调试中')
+     case "personal_center":
+        router.push({path:'/personal_center'})
+
        break;
    }
 }

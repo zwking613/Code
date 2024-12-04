@@ -96,6 +96,8 @@ onBeforeUnmount(() => {
 
   .el-aside {
     background: @bg-color;
+    // background-color: rgb(48, 65, 86);
+
     border-right: 1px solid #EBECF0;
     height: 100%;
     //padding: 0 10px;

@@ -24,7 +24,7 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {getKeyPath} from '@utils/utils'
-import routerList from '@router/routes'
+// import routerList from '@router/routes'
 import useMenuStore from '@modules/menu'
 import {menuStateType} from '@stores/interface/menu'
 import type { RouteLocationNormalized } from 'vue-router'
@@ -41,7 +41,6 @@ interface TagItem {
 const menuStore = useMenuStore()
 const route = useRoute()
 const router = useRouter()
-
 // 初始化首页标签
 const visitedTags = ref<TagItem[]>([
   {
@@ -82,9 +81,10 @@ const closeTag = (tag: TagItem) => {
 }
 
 const goToTag = (tag: TagItem) => {
+console.log(route)
   if (tag.path === route.path) return;
-  const pathKey:string [] = getKeyPath(routerList,tag.path)
-  router.push(tag.path)
+  const pathKey:string [] = getKeyPath(route.matched,tag.path)
+  router.push({path:tag.path})
   menuStore.$patch((state:menuStateType)=>{
     state.defaultActive = tag.path
     state.defaultOpeneds= pathKey

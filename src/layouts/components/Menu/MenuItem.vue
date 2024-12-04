@@ -6,7 +6,7 @@
         <el-icon v-if="route.meta && route.meta.icon">
           <component :is="route.meta.icon" />
         </el-icon>
-        <span class="flex justify-between items-center font-semibold leading-5 va-sidebar__title va-sidebar-item-title">
+        <span class="flex justify-between items-center leading-5">
           {{ route.meta?.title }}
         </span>
       </template>
@@ -18,7 +18,7 @@
       <el-icon v-if="route.meta && route.meta.icon">
         <component :is="route.meta.icon" />
       </el-icon>
-      <span class="flex justify-between items-center font-semibold leading-5 va-sidebar__title va-sidebar-item-title">
+      <span class="">
         {{ route.meta?.title }}
       </span>
     </el-menu-item>

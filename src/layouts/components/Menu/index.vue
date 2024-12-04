@@ -1,23 +1,15 @@
-<!--
- * @Author: zZzwWw 348721637@qq.com
- * @Date: 2024-11-29 08:47:22
- * @LastEditors: zZzwWw 348721637@qq.com
- * @LastEditTime: 2024-12-04 18:14:12
- * @FilePath: \vue_admin\src\layouts\components\Menu\index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div id="menu" class="flex flex-col w-full h-full">
-    <div class="logo-box flex items-center justify-center h-[55px]">
+    <div class="w-full logo-box flex items-center justify-center h-[55px]">
       <svg-icon
-        class="text-[40px] text-[#1A54B0] m-0 cursor-pointer"
+        class="text-[30px] text-[#1A54B0] m-0 cursor-pointer"
         icon-class="logo"
         @click="gotoHome"
       />
       <h2
         :class="`${
           !isCollapse ? 'w-auto' : 'w-0'
-        } ml-[10px] text-[24px] font-bold text-[#1A54B0] overflow-hidden transition-all duration-300`"
+        }  text-[24px] font-bold text-[#1A54B0] overflow-hidden transition-all duration-300`"
       >
         ROBOT
       </h2>
@@ -45,7 +37,6 @@ import MenuItem from "./MenuItem.vue";
 const menuStore = useMenuStore();
 const { defaultActive, defaultOpeneds, menuList, crumbsList } =storeToRefs(menuStore);
 const { isCollapse } = defineProps<{ isCollapse: boolean }>();
-console.log(menuList.value,'menuList.value===')
 const router = useRouter();
 const clickMenu = (key: string, keyPath: string[]) => {
   if (crumbsList.value.findIndex((obj: any) => obj.path === key) === -1) {
@@ -54,7 +45,8 @@ const clickMenu = (key: string, keyPath: string[]) => {
       state.defaultOpeneds = keyPath;
     });
   }
-  router.push(key);
+  console.log('/system'+key,'key')
+  router.push({path:key});
 };
 
 const getRouter = (params?: string) => {
@@ -72,68 +64,19 @@ const gotoHome = () => {
   if (
     crumbsList.value.findIndex((obj: any) => obj.path === "/dashboard") === -1
   ) {
-    router.push("/dashboard");
+    router.push({path:"/dashboard"});
     getRouter("/dashboard");
   }
 };
-watch(() => menuList.value, (newVal) => {
-  console.log(newVal, '=====newVal=====')
-}, { deep: true })
+
 onMounted(() => {
-  console.log(router.getRoutes(),'router.options.routes')
   getRouter();
 });
 </script>
 <style lang="less">
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 #menu {
-  .el-menu {
-    border: none;
-    font-size: 15px;
-    background-color: #ffffff;
-
-    .el-menu-item {
-      height: 44px;
-      line-height: 44px;
-      font-size: 17px !important;
-
-      &:hover,
-      &.is-active {
-        background-color: #eff6ff !important;
-      }
-    }
-    
-    // .el-sub-menu {
-    //   &.is-active {
-    //     .el-sub-menu__title {
-    //       color: #2563eb !important;
-    //       background-color: #eff6ff !important;
-
-    //       .el-icon {
-    //         color: #2563eb;
-    //       }
-    //     }
-    //   }
-    // }
-
-    .el-sub-menu__title {
-      height: 44px;
-      line-height: 44px;
-      font-size: 17px !important;
-      &:hover {
-        background-color: #eff6ff !important;
-      }
-    }
-
-    .el-icon {
-      font-size: 18px;
-      margin-right: 12px;
-      color: #6b7280;
-    }
-
-    .is-active .el-icon {
-      color: #2563eb;
-    }
-  }
+  
 }
 </style>
-

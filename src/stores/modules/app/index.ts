@@ -54,7 +54,7 @@ const useAppStore = defineStore('app', {
             if (result.success) {
                 ElMessage.success(result.message)
                 localSet(webConfig.TOKEN, result.data)
-                await router.push('/dashboard')
+                await router.push({path: '/'})
             } else {
                 if (result.code === 4002) {
                     await this.getCode();
@@ -72,7 +72,7 @@ const useAppStore = defineStore('app', {
             if (result.success) {
                 localRemove(webConfig.TOKEN)
                 this.$reset()
-                await router.push('/login')
+                await router.push({path: '/login'})
                 // window.location.href = '/dashboard'
                 ElMessage.success(result.message)
             } else {
