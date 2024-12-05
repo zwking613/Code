@@ -29,10 +29,10 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
+import { RouteRecordRaw, useRouter } from "vue-router";
 import useMenuStore from "@stores/modules/menu";
 import { getKeyPath, handleRouter } from "@utils/utils.ts";
-import { menuStateType } from "@stores/interface/menu.ts";
+import { menuStateType, RouterType } from "@stores/interface/menu.ts";
 import MenuItem from "./MenuItem.vue";
 const menuStore = useMenuStore();
 const { defaultActive, defaultOpeneds, menuList, crumbsList } =storeToRefs(menuStore);
@@ -45,14 +45,13 @@ const clickMenu = (key: string, keyPath: string[]) => {
       state.defaultOpeneds = keyPath;
     });
   }
-  console.log('/system'+key,'key')
   router.push({path:key});
 };
 
 const getRouter = (params?: string) => {
   const key = params || router.options.history.location;
-  let keyPath = getKeyPath(menuList.value, key);
-  const data = handleRouter(menuList.value, key, keyPath);
+  let keyPath = getKeyPath(menuList.value as RouteRecordRaw[], key);
+  const data = handleRouter(menuList.value as RouteRecordRaw[], key, keyPath);
   menuStore.$patch((state: menuStateType) => {
     state.defaultActive = key;
     state.defaultOpeneds = keyPath;
@@ -77,6 +76,8 @@ onMounted(() => {
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 #menu {
-  
+  .el-menu{
+    border: none !important;
+  }
 }
 </style>

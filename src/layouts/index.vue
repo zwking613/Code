@@ -1,14 +1,14 @@
 <template>
   <div id="container">
-    <el-aside  :collapsed="isCollapse" class="aside" :width="!isCollapse ? '280px' : '64px'">
+    <el-aside :collapsed="isCollapse" class="aside" :width="!isCollapse ? '280px' : '64px'" >
       <LayoutMenu :isCollapse="isCollapse"></LayoutMenu>
     </el-aside>
-    <el-container>
+    <el-container >
       <el-header class="border-b border-solid border-[#e0e0e0]">
         <LayoutHeader :setCollapse="setCollapse"></LayoutHeader>
       </el-header>
       <LayoutTabs />
-      <el-main>
+      <el-main style="min-width: 600px;overflow-y: auto;">
         <router-view v-slot="{ Component }">
           <transition name="page-fade" mode="out-in">
             <component :is="Component" />
@@ -100,7 +100,6 @@ onBeforeUnmount(() => {
   .el-aside {
     background: @bg-color;
     // background-color: rgb(48, 65, 86);
-
     border-right: 1px solid #EBECF0;
     height: 100%;
     //padding: 0 10px;
@@ -114,7 +113,7 @@ onBeforeUnmount(() => {
   }
 
   .aside {
-    transition: all 0.4s ease-in-out;
+    transition: all .5s ease-in-out;
   }
 
   .el-container {

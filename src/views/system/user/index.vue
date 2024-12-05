@@ -10,11 +10,11 @@
     <el-row>
       <el-col :span="24">
         <el-form-item label="选择图标" prop="icon">
-          <el-popover placement="bottom" width="auto" trigger="click">
+          <el-popover placement="bottom" width="400" trigger="click">
             <template #reference>
-              <el-input placeholder="请输入图标名称">
+              <el-input v-model="ruleForm.icon" placeholder="请输入图标名称" readonly>
                 <template #prefix>
-                  <svg-icon :icon-class="ruleForm.icon" />
+                  <svg-icon :icon-class="ruleForm.icon" font-size="20px"/>
                 </template>
               </el-input>
             </template>

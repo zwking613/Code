@@ -1,4 +1,5 @@
 import {  RouterType } from "@router/interface"
+import { RouteRecordRaw } from "vue-router";
 
 const modules = import.meta.glob('@/views/**/*.vue')
 
@@ -50,7 +51,7 @@ export const deepCopy = <T>(obj: any): T => {
     return newObj;
 };
 
-export const handleRouter = (router: RouterType[], path: string, keyPath: string[]) => {
+export const handleRouter = (router: RouteRecordRaw[], path: string, keyPath: string[]) => {
     let breadcrumbList: any = {};
 
     for (const item of router) {
@@ -75,7 +76,7 @@ export const handleRouter = (router: RouterType[], path: string, keyPath: string
     return breadcrumbList;
 };
 
-export const getKeyPath = (data:RouterType[], targetPath:string, currentPath:any[] = [], result:any = [])=> {
+export const getKeyPath = (data:RouteRecordRaw[], targetPath:string, currentPath:any[] = [], result:any = [])=> {
     for (let item of data) {
         let newPath:any[] = [...currentPath, item.path];
         if (item.path === targetPath) {

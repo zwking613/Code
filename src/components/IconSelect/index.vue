@@ -5,9 +5,9 @@
     <div class="icon-list">
       <div class="list-container">
         <div v-for="(item, index) in iconList" class="icon-item-wrapper" :key="index" @click="handleSelect(item)">
-          <div :class="['icon-item', { active: iconName === item }]">
-            <svg-icon :icon-class="item" class-name="icon" style="height: 25px;width: 16px;"/>
-            <span>{{ item }}</span>
+          <div :class="['icon-item']">
+            <svg-icon :class="[ activeName === item ? 'active' : '' ]" :icon-class="item" style="height: 25px;width: 16px;"/>
+            <span :class="[ activeName === item ? 'active' : '' ]">{{ item }}</span>
           </div>
         </div>
       </div>
@@ -19,30 +19,27 @@ import icons from './requireIcons'
 const { activeName } = defineProps<{
   activeName: string
 }>()
-const iconName = ref<string>(activeName)
+console.log(activeName)
+const iconName = ref('')
 const iconList = ref(icons)
 const emit = defineEmits(['select'])
 const handleSelect = (name: string) => {
   emit('select', name)
 }
-const filterIcons = (e: Event) => {
-  console.log((e.target as HTMLInputElement).value)
-  iconList.value = icons.filter(icon => icon.includes((e.target as HTMLInputElement).value))
-}
-const handleInput = (e: Event) => {
-  iconList.value = icons.filter(icon => icon.includes((e.target as HTMLInputElement).value))
+const filterIcons = (e: string) => {
+  iconList.value = icons.filter(icon => icon.includes((e)))
 }
 </script>
 <style scoped lang="less">
     .icon-body {
     width: 100%;
-    min-width: 400px;
     padding: 10px;
     .icon-search {
       position: relative;
       margin-bottom: 5px;
     }
     .icon-list {
+      width: 100%;
       height: 200px;
       overflow: auto;
       .list-container {
@@ -76,9 +73,8 @@ const handleInput = (e: Event) => {
               white-space: nowrap;
             }
           }
-          .icon-item.active {
-            background: #ececec;
-            border-radius: 5px;
+          .icon-item .active {
+            color: #256863 !important;
           }
         }
       }

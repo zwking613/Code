@@ -1,19 +1,11 @@
 <template>
-  <div class="overflow-x-auto overflow-y-hidden flex items-center p-2 bg-white shadow-sm border-solid border-[#dcdfe6] border-t">
+  <div class="w-full overflow-x-auto overflow-y-hidden flex items-center p-2 bg-white shadow-sm border-solid border-[#dcdfe6] border-t">
     <div v-for="tag in visitedTags" :key="tag.path" @click="goToTag(tag)"
-      class="flex items-center h-[26px] leading-[26px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6]"
-      :class="[
-        isActive(tag)
-          ? 'bg-[#409EFF] text-white'
-          : 'text-[#666] hover:text-[#409EFF]'
-      ]">
-      <span v-if=" isActive(tag)" class="block w-[6px] h-[6px] bg-[#f8f8f8] rounded-full mr-[8px]"></span>
-      <span class="text-[12px]">{{ tag.meta?.title }}</span>
-      <el-icon size="12px" v-if="tag.path !== webConfig.PATH" class="ml-[3px] h-[6px] w-[6px]" :class="[
-        isActive(tag)
-          ? 'text-white hover:bg-white/20'
-          : 'text-[#666] hover:text-[#409EFF]'
-      ]" @click.stop="closeTag(tag)">
+      class="flex items-center justify-center h-[30px] leading-[30px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6] min-w-[80px] max-w-[150px] rounded"
+      :class="[isActive(tag) ? 'bg-[#409EFF] text-white' : 'text-[#666] hover:text-[#409EFF] hover:bg-[#f0f9ff]']">
+      <span v-if="isActive(tag)" class="block w-[6px] h-[6px] bg-[#f8f8f8] rounded-full mr-[8px]"></span>
+      <span class="text-[12px] text-center">{{ tag.meta?.title }}</span>
+      <el-icon size="12px" v-if="tag.path !== webConfig.PATH" class="ml-[3px] h-[6px] w-[6px]" :class="[isActive(tag) ? 'text-white hover:bg-white/20' : 'text-[#666] hover:text-[#409EFF]']" @click.stop="closeTag(tag)">
         <Close />
       </el-icon>
     </div>
@@ -23,11 +15,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {getKeyPath} from '@utils/utils'
-// import routerList from '@router/routes'
+import { getKeyPath } from '@utils/utils'
 import useMenuStore from '@modules/menu'
-import {menuStateType} from '@stores/interface/menu'
-import type { RouteLocationNormalized } from 'vue-router'
+import { menuStateType } from '@stores/interface/menu'
+import type { RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
 import webConfig from '@/config/webConfig'
 
 interface TagItem {
@@ -41,7 +32,7 @@ interface TagItem {
 const menuStore = useMenuStore()
 const route = useRoute()
 const router = useRouter()
-// 初始化首页标签
+
 const visitedTags = ref<TagItem[]>([
   {
     path: webConfig.PATH,
@@ -54,15 +45,23 @@ const isActive = (tag: TagItem) => {
 }
 
 const addTag = (route: RouteLocationNormalized) => {
-  if (!route.meta?.title) return
-  const isExist = visitedTags.value.some(tag => tag.path === route.path)
+  if (!route.meta?.title) return;
+
+  const isExist = visitedTags.value.some(tag => tag.path === route.path);
+  
   if (!isExist) {
+    // 如果 visitedTags 的长度达到 8，删除索引为 2 的元素
+    if (visitedTags.value.length >= 8) {
+      visitedTags.value.splice(2, 1); // 删除索引为 2 的元素
+    }
+    
+    // 添加新标签
     visitedTags.value.push({
       path: route.path,
       meta: {
         title: route.meta.title as string,
       }
-    })
+    });
   }
 }
 
@@ -81,13 +80,12 @@ const closeTag = (tag: TagItem) => {
 }
 
 const goToTag = (tag: TagItem) => {
-console.log(route)
-  if (tag.path === route.path) return;
-  const pathKey:string [] = getKeyPath(route.matched,tag.path)
-  router.push({path:tag.path})
-  menuStore.$patch((state:menuStateType)=>{
+  if (tag.path === route.path) return
+  const pathKey: string[] = getKeyPath(route.matched as RouteRecordRaw[], tag.path)
+  router.push({ path: tag.path })
+  menuStore.$patch((state: menuStateType) => {
     state.defaultActive = tag.path
-    state.defaultOpeneds= pathKey
+    state.defaultOpeneds = tag.path === webConfig.PATH ?  [] : pathKey
   })
 }
 
