@@ -10,33 +10,21 @@ const outerRoutes = [
     name: 'login',
     component: () => import('@/views/login/index.vue')
   },
-  // {
-  //   path: '/register',
-  //   name: 'register',
-  //   meta: { title: '注册' },
-  //   component: () => import('~/views/register/index.vue')
-  // },
-  // {
-  //   path: '/forgot-password',
-  //   name: 'forgot-password',
-  //   meta: { title: '忘记密码' },
-  //   component: () => import('~/views/update-password/index.vue')
-  // },
-  // {
-  //   path: '/401',
-  //   name: '401',
-  //   component: () => import('~/views/401/index.vue')
-  // },
+  {
+    path: '/401',
+    name: '401',
+    component: () => import('@/components/ErrorPage/401.vue')
+  },
   {
     path: '/404',
     name: '404',
     component: () => import('@/components/ErrorPage/NotFound.vue')
   },
-  // {
-  //   path: '/500',
-  //   name: '500',
-  //   component: () => import('~/views/500/index.vue')
-  // },
+  {
+    path: '/500',
+    name: '500',
+    component: () => import('@/components/ErrorPage/500.vue')
+  },
   {
     path: '/', // 动态路由模块
     name: 'reseller',
@@ -69,8 +57,6 @@ const constantRoutes = [
 // 路由白名单（无需token）
 const ROUTE_WHILE_LIST = [
   'login',
-  'register',
-  'forgot-password',
   '401',
   '404',
   '500'

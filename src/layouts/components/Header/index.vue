@@ -14,8 +14,8 @@
           />
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="personal_center">个人中心</el-dropdown-item>
-              <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+              <el-dropdown-item divided command="personal_center">个人中心</el-dropdown-item>
+              <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

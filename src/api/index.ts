@@ -8,6 +8,7 @@ import { AxiosCanceler } from "./helper/axiosCancel";
 import {ElMessage} from "element-plus";
 import {localGet} from "@utils/utils.ts";
 import webConfig from "@config/webConfig.ts";
+import router from "@router/index.ts";
 const axiosCanceler = new AxiosCanceler();
 
 const config = {
@@ -53,7 +54,7 @@ class RequestHttp {
                 // * 登录失效（code == 401）
                 if (data.status == ResultEnum.OVERDUE) {
                     ElMessage.error(data.message)
-                    window.location.hash = "/login";
+                    router.push({path:"/login"});
                     return Promise.reject(data);
                 }
                 // * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
@@ -63,7 +64,7 @@ class RequestHttp {
                 }
                 if(data.code === 401){
                     ElMessage.error(data.message)
-                    window.location.hash = "/login";
+                    router.push({path:"/login"});
                     return Promise.reject(data)
                 }
                 // * 成功请求（在页面上除非特殊情况，否则不用处理失败逻辑）
@@ -78,7 +79,7 @@ class RequestHttp {
                 // 根据响应的错误状态码，做不同的处理
                 if (response) checkStatus(response.status);
                 // 服务器结果都没有返回(可能服务器错误可能客户端断网) 断网处理:可以跳转到断网页面
-                if (!window.navigator.onLine) window.location.hash = "/500";
+                if (!window.navigator.onLine)  router.push({path:"/500"});
                 return Promise.reject(error);
             }
         );

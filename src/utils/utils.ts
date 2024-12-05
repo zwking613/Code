@@ -1,6 +1,6 @@
 import {  RouterType } from "@router/interface"
 
-const modules = import.meta.glob("@/views/**/*.vue");
+const modules = import.meta.glob('@/views/**/*.vue')
 
 export const localGet = (key: string) => {
     const value = window.localStorage.getItem(key);
@@ -91,22 +91,21 @@ export const getKeyPath = (data:RouterType[], targetPath:string, currentPath:any
 /** 
  * 生成菜单
  */
-export const generateMenu = (data:RouterType[]) => {
-    let menuList:any[] = [];
-    for (let item of data) {
-        if (item.children) {
-            menuList.push({
-                ...item,
-                path: item.path.startsWith('/') ? item.path : "/" + item.path,
-                children:generateMenu(item.children)
-            });
-        } else {
-            menuList.push({
-                ...item,
-                path: item.path.startsWith('/') ? item.path : "/" + item.path,
-                // component:modules["/src/views/" + item.component + ".vue"]
-            });
+export const generateRouter = (userRouters: any[]): any[] => {
+    const newRouters: any[] = userRouters.map((router: any) => {
+        const isParent = router.children && router.children.length > 0
+        const routes = {
+            ...router,
+            path: router.path.indexOf('/') === 0 ? router.path : `/${router.path}`,
+            component: router?.component ? modules[/* @vite-ignore */ `/src/views/${router.component}.vue`] : undefined
         }
-    }
-    return menuList;
+        if (isParent) {
+            routes.redirect = routes.redirect ? routes.redirect : router.children[0].path
+        }
+        if (routes && router.children) {
+            routes.children = generateRouter(router.children)
+        }
+        return routes
+    })
+    return newRouters
 }
