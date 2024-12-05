@@ -6,9 +6,8 @@
 <script setup lang="ts">
 import config from '@config/webConfig'
 import { useLoadingStore } from '@modules/loading.ts'
-import useAppStore from '@stores/modules/app'
 const loadingStore = useLoadingStore()
-const appStore = useAppStore()
+
 const initWeb = async () => {
   // 设置网站标题和图标
   document.title = config.name
@@ -21,7 +20,7 @@ const initWeb = async () => {
     newFavicon.href = config.icon;
     document.head.appendChild(newFavicon);
   }
-  appStore.getUserInfo()
+  
 }
 
 onMounted(async () => {

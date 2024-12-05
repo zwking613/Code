@@ -59,7 +59,7 @@ const ROUTE_WHILE_LIST = [
   'login',
   '401',
   '404',
-  '500'
+  '500',
 ]
 // 404路由（动态路由的时候才添加，以免，找不到路由时会跳转到404）
 const notFoundRoute = { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/404' }
@@ -87,9 +87,11 @@ const generateRoute = async () => {
 }
 router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const token = localStorage.getItem(webConfig.TOKEN)
+  console.log(to,from)
   if (token) {
     const isWhitelist = ROUTE_WHILE_LIST.includes(to.name as string)
     const routesStore = useMenuStore()
+    console.log(isWhitelist,'isWhitelist')
     if (isWhitelist) {
       // 白名单路由且不是动态路由
       next()
@@ -97,6 +99,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
       if (routesStore.menuList && routesStore.menuList.length === 0) {
         // 如果刷新页面没有用户路由数据也重新请求菜单路由权限
         await generateRoute()
+        console.log(to,'generateRoute')
         next({ ...to, replace: true })
       } else {
         next()
@@ -106,7 +109,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
     if (ROUTE_WHILE_LIST.includes(to.name as string)) {
       next()
     } else {
-      next()
+      next({ path: '/login' })
     }
   }
 })

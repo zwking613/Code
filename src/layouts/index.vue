@@ -32,7 +32,8 @@ import useMenuStore from '@stores/modules/menu';
 import LayoutMenu from './components/Menu/index.vue';
 import LayoutHeader from './components/Header/index.vue';
 import LayoutTabs from './components/Tabs/index.vue';
-
+  import useAppStore from '@stores/modules/app'
+const appStore = useAppStore()
 const menuStore = useMenuStore();
 // const { isCollapse ,isShowOverlay} = storeToRefs(menuStore);
 const { isCollapse } = storeToRefs(menuStore);
@@ -79,6 +80,8 @@ const handleResize = () => {
 
 onMounted(() => {
   window.addEventListener('resize', handleResize);
+
+appStore.getUserInfo()
   handleResize(); // 初始化时检查窗口大小
 });
 
