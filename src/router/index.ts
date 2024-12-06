@@ -82,16 +82,13 @@ const generateRoute = async () => {
     resellerRoutes.redirect = '/dashboard'
     router.addRoute(resellerRoutes)
   }
-  console.log(resellerRoutes)
   router.addRoute(notFoundRoute)
 }
 router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const token = localStorage.getItem(webConfig.TOKEN)
-  console.log(to,from)
   if (token) {
     const isWhitelist = ROUTE_WHILE_LIST.includes(to.name as string)
     const routesStore = useMenuStore()
-    console.log(isWhitelist,'isWhitelist')
     if (isWhitelist) {
       // 白名单路由且不是动态路由
       next()
@@ -99,7 +96,6 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
       if (routesStore.menuList && routesStore.menuList.length === 0) {
         // 如果刷新页面没有用户路由数据也重新请求菜单路由权限
         await generateRoute()
-        console.log(to,'generateRoute')
         next({ ...to, replace: true })
       } else {
         next()

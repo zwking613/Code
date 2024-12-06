@@ -16,9 +16,7 @@
 </template>
 <script setup lang="ts">
 import icons from './requireIcons'
-const { activeName } = defineProps<{
-  activeName: string
-}>()
+const { activeName } = defineProps<{activeName: string}>()
 console.log(activeName)
 const iconName = ref('')
 const iconList = ref(icons)

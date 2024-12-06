@@ -1,3 +1,11 @@
+<!--
+ * @Author: zZzwWw 348721637@qq.com
+ * @Date: 2024-11-29 08:47:22
+ * @LastEditors: zZzwWw 348721637@qq.com
+ * @LastEditTime: 2024-12-06 11:39:51
+ * @FilePath: \vue_admin\src\layouts\components\Header\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div id="header" class="pr-4 pl-4 bg-white h-[60px] flex justify-between items-center overflow-x-auto overflow-y-hidden">  
       <div class="flex flex-auto items-center h-9 rounded-lg cursor-pointer" >
@@ -10,11 +18,11 @@
         <svg-icon class="mr-4 cursor-pointer" :icon-class="!fullScreen ? 'ALFullScreen':'ALNarrow'"  @click="handleFullScreen"/>
         <el-dropdown trigger="click" @command="handleCommand">
           <el-avatar
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+              :src="userInfo.avatar"
           />
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item divided command="personal_center">个人中心</el-dropdown-item>
+              <el-dropdown-item command="personal_center">个人中心</el-dropdown-item>
               <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -35,7 +43,7 @@ const {isCollapse} = storeToRefs(menuStore)
 const { setCollapse } = defineProps<{setCollapse: ()=>void}>() 
 const router = useRouter()
 const appStore = useAppStore()
-const { logout } =appStore
+const { logout,userInfo } =appStore
 
 
 const fullScreen = ref<boolean>(screenfull.isFullscreen)

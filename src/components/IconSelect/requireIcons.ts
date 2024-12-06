@@ -1,6 +1,3 @@
-// 定义一个类型，用于表示图标名称的数组
-type IconNames = string[];
-
 const req = import.meta.glob('/src/assets/svg/*.svg')
 
 // 定义一个函数，返回所有匹配的模块

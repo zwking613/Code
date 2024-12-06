@@ -1,3 +1,11 @@
+<!--
+ * @Author: zZzwWw 348721637@qq.com
+ * @Date: 2024-12-04 14:09:56
+ * @LastEditors: zZzwWw 348721637@qq.com
+ * @LastEditTime: 2024-12-06 11:20:33
+ * @FilePath: \vue_admin\src\views\system\user\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <el-form
     class="p-4 bg-white rounded-lg demo-ruleForm"
@@ -10,7 +18,7 @@
     <el-row>
       <el-col :span="24">
         <el-form-item label="选择图标" prop="icon">
-          <el-popover placement="bottom" width="400" trigger="click">
+          <el-popover placement="bottom" width="420px" trigger="click">
             <template #reference>
               <el-input v-model="ruleForm.icon" placeholder="请输入图标名称" readonly>
                 <template #prefix>

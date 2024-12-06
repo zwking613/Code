@@ -1,4 +1,3 @@
-import {  RouterType } from "@router/interface"
 import { RouteRecordRaw } from "vue-router";
 
 const modules = import.meta.glob('@/views/**/*.vue')

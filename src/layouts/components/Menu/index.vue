@@ -32,7 +32,7 @@ import { storeToRefs } from "pinia";
 import { RouteRecordRaw, useRouter } from "vue-router";
 import useMenuStore from "@stores/modules/menu";
 import { getKeyPath, handleRouter } from "@utils/utils.ts";
-import { menuStateType, RouterType } from "@stores/interface/menu.ts";
+import { menuStateType } from "@stores/interface/menu.ts";
 import MenuItem from "./MenuItem.vue";
 const menuStore = useMenuStore();
 const { defaultActive, defaultOpeneds, menuList, crumbsList } =storeToRefs(menuStore);

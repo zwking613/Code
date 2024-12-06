@@ -1,13 +1,42 @@
 <template>
-  <div class="w-full overflow-x-auto overflow-y-hidden flex items-center p-2 bg-white shadow-sm border-solid border-[#dcdfe6] border-t">
-    <div v-for="tag in visitedTags" :key="tag.path" @click="goToTag(tag)"
-      class="flex items-center justify-center h-[30px] leading-[30px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6] min-w-[80px] max-w-[150px] rounded"
-      :class="[isActive(tag) ? 'bg-[#409EFF] text-white' : 'text-[#666] hover:text-[#409EFF] hover:bg-[#f0f9ff]']">
-      <span v-if="isActive(tag)" class="block w-[6px] h-[6px] bg-[#f8f8f8] rounded-full mr-[8px]"></span>
-      <span class="text-[12px] text-center">{{ tag.meta?.title }}</span>
-      <el-icon size="12px" v-if="tag.path !== webConfig.PATH" class="ml-[3px] h-[6px] w-[6px]" :class="[isActive(tag) ? 'text-white hover:bg-white/20' : 'text-[#666] hover:text-[#409EFF]']" @click.stop="closeTag(tag)">
-        <Close />
-      </el-icon>
+  <div
+    class="flex justify-between items-center w-full bg-white border-solid pl-2 pr-2 border-[#dcdfe6] border-t shadow-sm">
+    <div class="flex overflow-x-hidden overflow-y-hidden flex-1 items-center pt-2 pb-2" @wheel="handleScroll"
+      ref="scrollContainer">
+      <div v-for="tag in visitedTags" :key="tag.path" @click="(event) => goToTag(tag, event)"
+        class="tag-item w-30 flex items-center justify-center h-[30px] leading-[30px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6] rounded box-border "
+        :class="[isActive(tag) ? 'bg-[#409EFF] text-white' : 'text-[#666] hover:text-[#409EFF] hover:bg-[#f0f9ff]']">
+        <span v-if="isActive(tag)&&tag.path!==webConfig.PATH" class="block w-[6px] h-[6px] bg-[#f8f8f8] rounded-full mr-[8px]"></span>
+        <span class="min-w-[50px] text-[12px] text-center overflow-hidden whitespace-nowrap flex items-center">
+          <el-icon size="14" style="margin-right: 2px;" v-if="tag.path === webConfig.PATH" :icon="tag.meta?.icon">
+            <HomeFilled />
+          </el-icon>
+          {{ tag.meta?.title}}
+        </span>
+        <el-icon size="15" v-if="tag.path !== webConfig.PATH" class="ml-[3px] h-[12px] w-[12px]"
+          :class="[isActive(tag) ? 'text-white hover:bg-white/20' : 'text-[#666] hover:text-[#409EFF]']"
+          @click.stop="closeTag(tag)">
+          <Close />
+        </el-icon>
+      </div>
+    </div>
+
+    <div class="w-16 flex items-center justify-center h-[30px] leading-[30px]">
+      <el-dropdown class="" trigger="click" @command="handleCommand">
+        <span class="el-dropdown-link">
+          <div
+            class="flex w-full items-center bg-[#409EFF] text-white justify-center h-[30px] leading-[30px] mx-[2px] px-[10px] cursor-pointer border-[1px] border-solid border-[#dcdfe6] rounded">
+            <span class="text-[12px] text-center">更多</span>
+          </div>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="Current">关闭当前</el-dropdown-item>
+            <el-dropdown-item divided command="Other">关闭其他</el-dropdown-item>
+            <el-dropdown-item divided command="All">关闭所有</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -33,6 +62,7 @@ const menuStore = useMenuStore()
 const route = useRoute()
 const router = useRouter()
 
+const scrollContainer = ref<HTMLElement | null>(null)
 const visitedTags = ref<TagItem[]>([
   {
     path: webConfig.PATH,
@@ -48,13 +78,8 @@ const addTag = (route: RouteLocationNormalized) => {
   if (!route.meta?.title) return;
 
   const isExist = visitedTags.value.some(tag => tag.path === route.path);
-  
+
   if (!isExist) {
-    // 如果 visitedTags 的长度达到 8，删除索引为 2 的元素
-    if (visitedTags.value.length >= 8) {
-      visitedTags.value.splice(2, 1); // 删除索引为 2 的元素
-    }
-    
     // 添加新标签
     visitedTags.value.push({
       path: route.path,
@@ -62,6 +87,17 @@ const addTag = (route: RouteLocationNormalized) => {
         title: route.meta.title as string,
       }
     });
+
+    nextTick(() => {
+      // 滚动到新标签
+      if (scrollContainer.value) {
+        const tagItems = scrollContainer.value.querySelectorAll('.tag-item');
+        const newTag = tagItems[tagItems.length - 1]; // 获取最后一个标签
+        if (newTag) {
+          newTag.scrollIntoView({ behavior: 'smooth', inline: 'end' }); // 滚动到新标签
+        }
+      }
+    })
   }
 }
 
@@ -79,14 +115,54 @@ const closeTag = (tag: TagItem) => {
   }
 }
 
-const goToTag = (tag: TagItem) => {
+const goToTag = (tag: TagItem, event?: MouseEvent) => {
   if (tag.path === route.path) return
   const pathKey: string[] = getKeyPath(route.matched as RouteRecordRaw[], tag.path)
   router.push({ path: tag.path })
   menuStore.$patch((state: menuStateType) => {
     state.defaultActive = tag.path
-    state.defaultOpeneds = tag.path === webConfig.PATH ?  [] : pathKey
+    state.defaultOpeneds = tag.path === webConfig.PATH ? [] : pathKey
   })
+  nextTick(() => {
+    // 滚动到新标签
+    if (event?.target) {
+      (event.target as HTMLElement).scrollIntoView();
+    }
+  })
+}
+
+const handleCommand = (com: string) => {
+  switch (com) {
+    case 'Current':
+      const currentRoute = (visitedTags.value.find(v => v.path === route.path) as TagItem)
+      closeTag(currentRoute)
+      break;
+    case 'Other':
+      console.log(route.path)
+      const other = visitedTags.value.find(item => item.path === route.path) as TagItem
+      visitedTags.value = [
+        {
+          path: webConfig.PATH,
+          meta: { title: '首页' }
+        },
+        other
+      ]
+      goToTag(other)
+      break;
+    case 'All':
+      visitedTags.value = [{
+        path: webConfig.PATH,
+        meta: { title: '首页' }
+      }]
+      router.push({ path: webConfig.PATH })
+      break;
+  }
+}
+
+const handleScroll = (event: WheelEvent) => {
+  event.preventDefault();
+  const scrollContainer = event.currentTarget as HTMLElement;
+  scrollContainer.scrollLeft += event.deltaY;
 }
 
 watch(
