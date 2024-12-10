@@ -452,13 +452,13 @@ const submitForm = () => {
     if (valid){
       console.log(form.value)
       if(form.value.id != undefined){
-        systemMenuAdd(form.value,(res)=>{
-          console.log(res)
+        systemMenuAdd(form.value,()=>{
+          getList()
         })
       }
       else {
-        systemMenuEdit(form.value,(res)=>{
-          console.log(res)
+        systemMenuEdit(form.value,()=>{
+          getList()
         })
       }
 
