@@ -9,7 +9,7 @@ export const getMenuList = () => http.get('/getRouters')
  *
  * */
 
-export const getSystemMenuList = (params:Menu.ReqQueryForm) => http.get('/system/menu/list',params)
+export const getSystemMenuList = (params:Menu.ReqQueryForm) => http.get<Menu.ReqSysMenuDetail>('/system/menu/list',params)
 
 
 /**
@@ -36,7 +36,7 @@ export const systemMenuEdit = (params:Menu.ReqQueryForm) => http.post('/system/m
  *
  * */
 
-export const systemMenuRemove = (params:Menu.ReqQueryForm) => http.post('/system/menu/remove',params)
+export const systemMenuRemove = (id:number) => http.post<null>(`/system/menu/${id}`)
 
 /**
  *
@@ -44,4 +44,14 @@ export const systemMenuRemove = (params:Menu.ReqQueryForm) => http.post('/system
  *
  * */
 
-export const systemMenuInfo = (params:Menu.ReqDetailsForm) => http.get('/system/menu/info',params)
+export const systemMenuInfo = (params:number) => http.get<Menu.ReqSysMenuDetail>(`/system/menu/info/${params}`)
+
+
+/**
+ *
+ * 获取下拉树
+ *
+ * */
+
+export const systemMenuTreeSelect = ()=> http.get<Menu.ReqMenuTree>('/system/menu/treeSelect')
+

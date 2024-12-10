@@ -58,6 +58,7 @@
           v-if="refreshTable"
           v-loading="loading"
           :data="sysMenuList"
+          style="width: 100%"
           row-key="id"
           :default-expand-all="isExpandAll"
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
@@ -69,37 +70,44 @@
           </template>
         </el-table-column>
         <el-table-column prop="orderNum" label="排序" width="60" align="center"></el-table-column>
-        <el-table-column prop="perms" label="权限标识" align="center"></el-table-column>
-        <el-table-column prop="component" label="组件路径" align="center"></el-table-column>
-        <el-table-column prop="status" label="状态" width="180" align="center">
+        <el-table-column prop="perms" label="权限标识" align="center" width="160"></el-table-column>
+        <el-table-column prop="component" label="组件路径" align="center" width="160"></el-table-column>
+        <el-table-column prop="status" label="状态" width="120" align="center">
           <template #default="{ row }">
             <el-tag :type="row.status =='0' ? 'primary' : 'danger'">{{ row.status == '0' ? '正常' : '停用' }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="createTime"></el-table-column>
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <el-table-column label="创建时间" align="center" prop="createTime" width="200"></el-table-column>
+        <el-table-column label="操作" align="center"  fixed="right" min-width="200">
           <template #default="{ row }">
             <el-button
                 size="small"
                 icon="edit"
-                type="text"
+                type="primary"
+                link
                 @click="handleUpdate(row)"
             >修改
             </el-button>
             <el-button
                 size="small"
-                type="text"
+                type="primary"
+                link
                 icon="plus"
                 @click="handleAdd(row)"
             >新增
             </el-button>
-            <el-button
-                size="small"
-                type="text"
-                icon="delete"
-                @click="handleDelete(row)"
-            >删除
-            </el-button>
+              <el-popconfirm title="确定删除?" @confirm="handleDelete(row)" cancel-button-text="取消" confirm-button-text="确认">
+                <template #reference>
+                  <el-button
+                      size="small"
+                      type="danger"
+                      link
+                      icon="delete"
+                  >删除
+                  </el-button>
+                </template>
+              </el-popconfirm>
+
           </template>
         </el-table-column>
       </el-table>
@@ -118,7 +126,7 @@
                     check-strictly
                     check-on-click-node
                     :props="{
-                      label: 'menuName',
+                      label: 'name',
                       value:'id',
                       children: 'children',
                     }"
@@ -301,16 +309,14 @@
 import useMenuStore from '@stores/modules/menu'
 import { storeToRefs } from "pinia";
 import IconSelect from "@components/IconSelect/index.vue";
-
+import {ReqSysMenuDetail} from '@stores/interface/menu.ts'
 const menuStore = useMenuStore();
 const {sysMenuList} = storeToRefs(menuStore);
-const {getSystemMenuList,getMenuInfo} = menuStore;
+const {getSystemMenuList,getMenuInfo,deleteMenu,getMenuTreeSelect,systemMenuEdit,systemMenuAdd} = menuStore;
 
 const loading = ref(true);
 const showSearch = ref(true);
-const menuOptions = ref([
-  { id: 0, menuName: '主类目', children: sysMenuList}
-]);
+const menuOptions = ref();
 const title = ref("");
 const open = ref(false);
 const isExpandAll = ref(false);
@@ -319,8 +325,9 @@ const queryParams = ref({
   menuName: undefined,
   status: undefined
 });
+
 let form = ref({
-  menuId: undefined,
+  id: undefined,
   parentId: 0,
   menuName: undefined,
   icon: '',
@@ -333,8 +340,7 @@ let form = ref({
   path:undefined,
   component: undefined,
   query: undefined,
-  perms: undefined,
-});
+  perms: undefined,});
 
 const queryForm = ref()
 const formRef = ref()
@@ -398,7 +404,7 @@ const toggleExpandAll = () => {
 // 表单重置
 const reset = () => {
   form.value = {
-    menuId: undefined,
+    id: undefined,
     parentId: 0,
     menuName: undefined,
     icon: '',
@@ -417,13 +423,22 @@ const reset = () => {
 // 取消按钮
 const cancel = () => {
   open.value = false;
-  // formRef.value.resetFields();
+  formRef.value.resetFields();
+}
+const getTreeSelect=()=> {
+      getMenuTreeSelect(( response=> {
+        console.log(response)
+        menuOptions.value = [];
+        const menu = { menuId: 0, name: '主类目', children: response };
+        menuOptions.value.push(menu);
+      }));
 }
 /** 新增按钮操作 */
-const handleAdd = (row) => {
+const handleAdd = (row:ReqSysMenuDetail) => {
   reset();
-  if (row != null && row.menuId) {
-    form.value.parentId = row.menuId;
+  getTreeSelect()
+  if (row != null && row.id) {
+    form.value.parentId = row.id;
   } else {
     form.value.parentId = 0;
   }
@@ -432,39 +447,43 @@ const handleAdd = (row) => {
 
 }
 const submitForm = () => {
+  if(!formRef.value)return;
+  formRef.value.validate((valid:boolean)=>{
+    if (valid){
+      console.log(form.value)
+      if(form.value.id != undefined){
+        systemMenuAdd(form.value,(res)=>{
+          console.log(res)
+        })
+      }
+      else {
+        systemMenuEdit(form.value,(res)=>{
+          console.log(res)
+        })
+      }
 
-}
-/** 修改按钮操作 */
-const handleUpdate = (row) => {
-  reset();
-  getMenuInfo(row.menuId,(response)=>{
-    form.value = response.data;
-    open.value = true;
-    title.value = "修改菜单";
+    }
+    else{
+      console.log('error submit!')
+    }
   })
 }
-/** 提交按钮 */
-const ubmitForm = () => {
-  // this.$refs["form"].validate(valid => {
-  //   if (valid) {
-  //     if (this.form.menuId != undefined) {
-  //       updateMenu(this.form).then(response => {
-  //         this.$modal.msgSuccess("修改成功");
-  //         this.open = false;
-  //         this.getList();
-  //       });
-  //     } else {
-  //       addMenu(this.form).then(response => {
-  //         this.$modal.msgSuccess("新增成功");
-  //         this.open = false;
-  //         this.getList();
-  //       });
-  //     }
-  //   }
-  // });
+/** 修改按钮操作 */
+const handleUpdate = (row:ReqSysMenuDetail) => {
+  reset();
+  getTreeSelect()
+  getMenuInfo(row.id,(response)=>{
+    form.value = response as any;
+    title.value = "修改菜单";
+    open.value = true;
+  })
 }
+
 /** 删除按钮操作 */
-const handleDelete = (row) => {
+const handleDelete = async (row:ReqSysMenuDetail) => {
+  await deleteMenu(row.id,()=>{
+    getList();
+  })
   // this.$modal.confirm('是否确认删除名称为"' + row.menuName + '"的数据项？').then(function() {
   //   return delMenu(row.menuId);
   // }).then(() => {
