@@ -6,7 +6,8 @@ export interface menuStateType {
     defaultOpeneds:any[],
     menuList:RouterType[],
     isShowOverlay:boolean,
-    crumbsList:any[]
+    crumbsList:any[],
+    sysMenuList:[]
 }
 
 export interface RouterType {

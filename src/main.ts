@@ -3,6 +3,8 @@ import store from '@stores/index.ts'
 import router from '@/router'
 import  EventBus from "@components/RequestLoading/eventBus.ts"
 import SvgIcon from "@components/SvgIcon/index.vue";
+import RightToolbar from "@components/RightToolbar/index.vue";
+import IconSelect from "@components/IconSelect/index.vue";
 
 // 引入Element-plus图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -22,6 +24,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.use('svg-icon', SvgIcon);
+app.use('RightToolbar',RightToolbar)
+app.use('IconSelect',IconSelect)
 app.use(store)
 app.use(EventBus)
 app.use(router)

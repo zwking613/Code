@@ -80,8 +80,7 @@ const handleResize = () => {
 
 onMounted(() => {
   window.addEventListener('resize', handleResize);
-
-appStore.getUserInfo()
+  appStore.getUserInfo()
   handleResize(); // 初始化时检查窗口大小
 });
 
